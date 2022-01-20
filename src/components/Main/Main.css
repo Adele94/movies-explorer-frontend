@@ -1,0 +1,9 @@
+.Main {
+  margin: 0 auto;
+  min-width: 320px;
+  max-width: 1280px;
+  min-height: 648px;
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  background-color: #073042;
+  box-sizing: border-box;
+}
