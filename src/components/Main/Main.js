@@ -13,7 +13,6 @@ function Main(props) {
      <Techs />
      <AboutMe />
      <Portfolio />
-     <Footer />
     </main>
   );
 }

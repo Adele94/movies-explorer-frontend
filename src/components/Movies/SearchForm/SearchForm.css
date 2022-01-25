@@ -1,0 +1,141 @@
+.searchForm {
+  padding-bottom: 10px;
+}
+
+.searchForm__form {
+  margin-top: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.searchForm__input {
+  margin-right: 10px;
+  padding: 0 20px 0 20px;
+  background: #2F2F2F;
+  border: 0;
+  border-radius: 8px;
+  min-height: 50px;
+  color: white;
+  min-width: calc(100vw - 55px - 2* 70px);
+}
+
+.searchForm__button {
+  display: flex;
+  padding: 16px 19px;
+  background: #4285F4;
+  border: 0;
+  border-radius: 5px;
+  min-width: 44px;
+  min-height: 44px;
+  background-image: url('../../../images/text__COLOR_invisible-1.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.searchForm__button {
+  padding: 0 0 0 7px;
+  align-items: center;
+}
+
+.searchForm__shortMovies{
+  margin: 0;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 18px;
+  /* identical to box height, or 150% */
+  color: #FFFFFF;
+}
+
+.searchForm__filter {
+  display: flex;
+  margin-top: 29px;
+  border-bottom: 1px solid #424242;
+  padding-bottom: 40px;
+  align-items: center;
+  justify-content: center;
+}
+
+.switch {
+  margin-right: 12px;
+  position: relative;
+  width: 36px;
+  height: 20px;
+}
+
+.searchForm_slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #202020;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 16px;
+  box-shadow: 0px 4px 4px rgba(50, 50, 71, 0.08), 0px 4px 8px rgba(50, 50, 71, 0.06);
+}
+
+.searchForm_slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  background-color: #3DDC84;
+  -webkit-transition: .1s;
+  transition: .1s;
+  border-radius: 50%;
+}
+
+input:checked + .searchForm_slider {
+  background-color: #202020;
+}
+
+input:checked + .searchForm_slider:before {
+  -webkit-transform: translateX(16px);
+  -ms-transform: translateX(16px);
+  transform: translateX(16px);
+}
+
+/*------ ADDED CSS ---------*/
+.searchForm_slider:after
+{
+ display: block;
+ position: absolute;
+ transform: translate(-50%,-50%);
+ top: 50%;
+ left: 50%;
+}
+
+@media screen and (max-width: 768px) {
+  .searchForm__filter{
+    margin-left: -20px;
+    margin-right: -20px;
+    }
+  .searchForm__filter {
+    margin-top: 41px;
+  }
+  .searchForm__input {
+    min-width: calc(100vw - 55px - 2* 50px);
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .searchForm__filter{
+    margin-left: 4px;
+    margin-right: 4px;
+    }
+  .searchForm__input {
+    padding: 0 13px 0 13px;
+    min-width: calc(100vw - 55px - 2* 30px);
+  }
+  .searchForm__filter {
+    margin-top: 47px;
+  }
+}
