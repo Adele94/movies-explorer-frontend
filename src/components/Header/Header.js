@@ -1,21 +1,27 @@
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link, useNavigate} from 'react-router-dom';
 import React, { Fragment } from 'react';
 import headerLogo from '../../images/header-logo.svg'
 
 function Header(props) {
+  const navigate = useNavigate();
+
+  function handleAuthButtonClick() {
+    navigate('/signin');
+  }
+
   return (   
     <>
-    {props.loggedIn &&
+    {!props.loggedIn &&
     <header className="header">
       <Link to="/"><img className="header__logo" src={headerLogo} alt="Логотип" /></Link>
         <div className='header__navigation'>
           <Link to="/signup" className='header__registration'>Регистрация</Link>
-          <button to='/signin' className='header__auth-btn'>Войти</button>
+          <button onClick={handleAuthButtonClick} className='header__auth-btn'>Войти</button>
         </div>
     </header>
     }
     {
-      !props.loggedIn &&
+      props.loggedIn &&
       <header className="header header__otherPage">
       <Link to="/"><img className="header__logo" src={headerLogo} alt="Логотип" /></Link>
           <nav>
