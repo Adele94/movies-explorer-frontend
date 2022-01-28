@@ -12,6 +12,11 @@
   text-align: left;
 }
 
+.login__logo:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
 .login__title {
   margin: 0;
   margin-bottom: 40px;

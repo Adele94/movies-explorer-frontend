@@ -23,6 +23,11 @@
   border-radius: 6px;
 }
 
+.moreButton:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 768px) {
   .moviesCardList {
     row-gap: 47px;
@@ -53,4 +58,5 @@
 .moreButton {
   width: calc(100vw - 2*10px);
 }
+
 }

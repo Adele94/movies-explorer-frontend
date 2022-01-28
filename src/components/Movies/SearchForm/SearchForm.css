@@ -113,6 +113,11 @@ input:checked + .searchForm_slider:before {
  left: 50%;
 }
 
+.searchForm__button:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 768px) {
   .searchForm__filter{
     margin-left: -20px;

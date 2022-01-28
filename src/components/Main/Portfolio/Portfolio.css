@@ -46,11 +46,14 @@
   font-size: 30px;
   line-height: 50px;
   /* identical to box height, or 167% */
-
   letter-spacing: -0.04em;
   color: #FFFFFF;
 }
 
+.portfolio__link:hover{
+  opacity: 0.6;
+  cursor: pointer;
+}
 
 .portfolio__link-icon {
   font-family: Inter;

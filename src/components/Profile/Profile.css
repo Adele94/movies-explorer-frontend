@@ -95,6 +95,10 @@
   text-align: center;
   color: #FFFFFF;
 }
+.profile__button-edit:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
 
 .profile__button-signout {
   background-color: #202020;
@@ -109,6 +113,10 @@
   color: #EE3465;
 }
 
+.profile__button-signout:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
 
 @media screen and (max-width: 768px) {
   .profile  {

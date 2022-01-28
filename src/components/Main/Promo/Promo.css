@@ -44,11 +44,31 @@
   border-radius: 3px;
 }
 
+.promo__more-btn:hover{
+  opacity: 0.6;
+  cursor: pointer;
+}
+
 .promo__image {
   margin-top: 75px;
   position: absolute;
   max-width: 310px;
   right: 70px;
+}
+
+.promo__more-btn_link {
+  margin: 0 auto;
+  text-decoration: none;
+  justify-content: center;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  /* identical to box height, or 133% */
+  display: flex;
+  align-items: center;
+  color: #FFFFFF;
 }
 
 @media screen and (max-width: 768px) {

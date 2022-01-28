@@ -11,6 +11,10 @@
   margin-left: 0;
   text-align: left;
 }
+.register__logo:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
 
 .register__title {
   margin: 0;

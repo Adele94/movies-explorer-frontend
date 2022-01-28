@@ -15,7 +15,7 @@
 }
 
 .notFoundPage__text {
-  margin: 0 auto;
+  margin: 0 auto 184px;
   font-family: Inter;
   font-style: normal;
   font-weight: normal;
@@ -25,10 +25,9 @@
   color: #FFFFFF;
 }
 
-.notFoundPage__button-back {
-  margin-top: 184px;
+.notFoundPage__link-back {
+  text-decoration: none;
   background-color: #202020;
-  border: none;
   font-family: Inter;
   font-style: normal;
   font-weight: normal;
@@ -37,4 +36,9 @@
   /* identical to box height */
   text-align: center;
   color: #4285F4;
+}
+
+.notFoundPage__link-back:hover {
+  opacity: 0.6;
+  cursor: pointer;
 }
