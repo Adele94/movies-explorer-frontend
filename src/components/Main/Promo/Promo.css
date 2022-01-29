@@ -21,8 +21,9 @@
 }
 
 .promo__subtitle {
-  max-width: 310px;
   margin-top: 36px;
+  margin-bottom: 0;
+  max-width: 310px;
   text-align: left;
   color: white;
   font-family: Inter;

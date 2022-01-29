@@ -1,6 +1,7 @@
-import { Routes, Route, Link, useNavigate} from 'react-router-dom';
-import React, { Fragment } from 'react';
+import { Link, useNavigate} from 'react-router-dom';
+import React from 'react';
 import headerLogo from '../../images/header-logo.svg'
+import Navigation from '../Navigation/Navigation';
 
 function Header(props) {
   const navigate = useNavigate();
@@ -34,11 +35,8 @@ function Header(props) {
             <p className='header__profileText'>Аккаунт</p>
             <div className='header__profileIcon'></div>
           </Link>
-          <button
-          className="header_menuButton"
-          type='button'
-          onClick={props.onMenuClick}>
-        </button>
+          <button type='button' className="header_menuButton" onClick={props.onHeaderNavigation}> </button>
+          <Navigation isOpen={props.isOpen} onClose={props.onClose} />
       </header>
     }
     </>

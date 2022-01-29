@@ -1,0 +1,110 @@
+.navigation {
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.5);
+  flex-direction: column;
+  align-items: flex-end;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.5s 0s linear, opacity 0.5s linear;
+  z-index: 3;
+}
+
+.navigation__close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 40px;
+  min-height: 40px;
+  background: url(../../images/close-icon.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: auto;
+  border: none;
+  box-sizing: border-box;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.navigation__close:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.navigation_is-opened {
+  visibility: visible;
+  opacity: 1;
+}
+
+.navigation__container {
+  height: 100vh;
+  padding-top: 159px;
+  min-width: 520px;
+  background: #202020;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} 
+
+.navigation__navList {
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.navigation__link{
+  margin: 0 auto 28px;
+  text-decoration: none;
+  list-style-type: none;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  /* identical to box height */
+  text-align: center;
+  color: #FFFFFF;
+}
+
+.navigation__link:hover{
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 7px;
+}
+
+.navigation__profile {
+  margin-top: auto;
+  margin-bottom: 92px;
+  max-width: 100px;
+  display: flex;
+  justify-content: space-between;
+  text-decoration: none;
+}
+
+.navigation__profile:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 320px) {
+  .navigation__container {
+    min-width: 100%;
+    padding-top: 159px;
+  } 
+  .navigation__profile {
+    margin-top: auto;
+    margin-bottom: 48px;
+  }
+}

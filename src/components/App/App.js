@@ -1,7 +1,7 @@
 import './App.css';
 import Main from '../Main/Main';
 import Header from '../Header/Header';
-import React, {Fragment} from 'react';
+import React, {Fragment, useState} from 'react';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import Movies from '../Movies/Movies';
 import Footer from '../Footer/Footer';
@@ -11,18 +11,18 @@ import Register from '../Register/Register';
 import Login from '../Login/Login';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import SavedMovies from '../SavedMovies/SavedMovies';
-import pic1 from "../../images/picture1.png"
-import pic2 from "../../images/picture2.png"
-import pic3 from "../../images/picture3.png"
-import pic4 from "../../images/picture4.png"
-import pic5 from "../../images/picture5.png"
-import pic6 from "../../images/picture6.png"
-import pic7 from "../../images/picture7.png"
-import pic8 from "../../images/picture8.png"
-import pic9 from "../../images/picture9.png"
-import pic10 from "../../images/picture10.png"
-import pic11 from "../../images/picture11.png"
-import pic12 from "../../images/picture12.png"
+import pic1 from "../../images/picture1.png";
+import pic2 from "../../images/picture2.png";
+import pic3 from "../../images/picture3.png";
+import pic4 from "../../images/picture4.png";
+import pic5 from "../../images/picture5.png";
+import pic6 from "../../images/picture6.png";
+import pic7 from "../../images/picture7.png";
+import pic8 from "../../images/picture8.png";
+import pic9 from "../../images/picture9.png";
+import pic10 from "../../images/picture10.png";
+import pic11 from "../../images/picture11.png";
+import pic12 from "../../images/picture12.png";
 
 function App() {
 
@@ -135,6 +135,16 @@ function App() {
     }
   ];
 
+  const [isHeaderNavigationOpen, setIsHeaderNavigationOpen] = useState(false);
+
+  function handleHeaderNavigationClick() {
+    setIsHeaderNavigationOpen(true);
+  }
+
+  function closeHeaderNavigation() {
+    setIsHeaderNavigationOpen(false)
+  }
+
   function handleCardSave(card) {
     card.isSaved = !card.isSaved;
     return  card.isSaved;
@@ -147,17 +157,17 @@ function App() {
         <Route path="/" element={<Header loggedIn={false}/>} exact/>
         <Route path="/movies" element={
           <ProtectedRoute loggedIn={true}>
-            <Header loggedIn={true}/>
+            <Header loggedIn={true} onHeaderNavigation={handleHeaderNavigationClick} isOpen={isHeaderNavigationOpen} onClose={closeHeaderNavigation}/>
           </ProtectedRoute>
         }/>
         <Route path="/saved-movies" element={
           <ProtectedRoute loggedIn={true}>
-            <Header loggedIn={true}/>
+            <Header loggedIn={true} onHeaderNavigation={handleHeaderNavigationClick} isOpen={isHeaderNavigationOpen} onClose={closeHeaderNavigation}/>
           </ProtectedRoute>
         }/>
         <Route path="/profile" element={
           <ProtectedRoute loggedIn={true}>
-            <Header loggedIn={true}/>
+            <Header loggedIn={true} onHeaderNavigation={handleHeaderNavigationClick} isOpen={isHeaderNavigationOpen} onClose={closeHeaderNavigation}/>
           </ProtectedRoute>
         }/>
       </Routes>

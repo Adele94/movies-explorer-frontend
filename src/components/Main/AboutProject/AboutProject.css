@@ -65,6 +65,7 @@
 }
 
 .aboutProject__scale-text_black {
+  margin: 0 auto;
   font-family: Inter;
   font-style: normal;
   font-weight: normal;
@@ -88,6 +89,7 @@
 }
 
 .aboutProject__scale-text_white {
+  margin: 0 auto;
   font-family: Inter;
   font-style: normal;
   font-weight: normal;

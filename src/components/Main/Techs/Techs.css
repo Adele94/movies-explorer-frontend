@@ -5,7 +5,7 @@
 }
 
 .techs__title {
-  margin: 0 0 0 70px;
+  margin: 0 70px 0 ;
   padding-top: 100px;
   padding-bottom: 23px;
   font-family: Inter;
@@ -32,7 +32,6 @@
 
   text-align: center;
   letter-spacing: -0.04em;
-
   color: #FFFFFF;
 }
 
@@ -45,10 +44,7 @@
   font-size: 14px;
   line-height: 20px;
   /* or 143% */
-
   text-align: center;
-  letter-spacing: -0.04em;
-
   color: #FFFFFF;
 }
 
@@ -84,7 +80,6 @@
   letter-spacing: -0.04em;
   background:  #303030;;
   border-radius: 10px;
-
   color: #FFFFFF;
 }
 
