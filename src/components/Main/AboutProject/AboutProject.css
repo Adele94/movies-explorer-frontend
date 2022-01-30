@@ -112,6 +112,8 @@
 
   .aboutProject__text {
     margin-top: 22px;
+    font-size: 12px;
+    line-height: 18px;
   }
 
   .aboutProject__scale {

@@ -96,6 +96,7 @@
   .promo__subtitle {
     margin-top: 22px;
     max-width: 260px;
+    text-align: center;
   }
 
   .promo__more-btn {
