@@ -171,5 +171,7 @@
   }
   .register__link{
     margin-left: 7px;
+    font-size: 12px;
+    line-height: 15px;
   }
 }
