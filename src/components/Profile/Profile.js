@@ -1,45 +1,29 @@
+import { useNavigate} from 'react-router-dom';
+
 function Profile(props) {
+  const navigate = useNavigate();
+
+  function signout() {
+    navigate('/');
+  }
+
   return (
     <section className="profile">
-          <div className="profile__form">
-            <h2 className="profile__greeting">
-              Привет, Виталий!
-            </h2>
-            <div className="profile__inputLabel">
-              <label className="profile__label" htmlFor='name'>Имя</label>
-              <input
-                name='name'
-                type='text'
-                className="profile__input"
-                id='name-profile'
-                autoComplete='off'
-              />
-            </div>
-            <div className="profile__inputLabel">
-              <label className="profile__label" htmlFor='email'>E-mail</label>
-              <input
-                name='email'
-                type='email'
-                className="profile__input"
-                id='email-profile'
-                autoComplete='off'
-              />
-            </div>
-
-            <div className="profile__buttons">
-              <button
-                type='submit'
-                className="profile__button-edit"
-              >
-                Редактировать
-              </button>
-              <button
-                type='button'
-                className="profile__button-signout">
-                Выйти из аккаунта
-              </button>
-            </div>
-          </div>
+      <form className="profile__form">
+        <h2 className="profile__greeting">Привет, Виталий!</h2>
+        <div className="profile__inputLabel">
+          <label className="profile__label" >Имя</label>
+          <input type="text" className="profile__input" required minLength="2" maxLength="200" />
+        </div>
+        <div className="profile__inputLabel">
+          <label className="profile__label" >E-mail</label>
+          <input type="email" className="profile__input" required minLength="2" maxLength="200" />
+        </div>
+        <div className="profile__buttons">
+          <button type="submit" className="profile__button-edit">Редактировать </button>
+          <button type='button' className="profile__button-signout" onClick={signout}>Выйти из аккаунта</button>
+        </div>
+      </form>
     </section>
 );
 }

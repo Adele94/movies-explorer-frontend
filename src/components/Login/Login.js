@@ -8,12 +8,12 @@ function Login(props) {
       <h2 className="login__title">Рады видеть!</h2>
       <form className="login__content" >
         <section className="login__input-section">
-        <label className="login__label">E-mail</label>
+          <label className="login__label">E-mail</label>
           <input type="email" className="login__input" required minLength="2" maxLength="200" />
           <span className="login__input-error login__input-error_active"></span>
         </section>
         <section className="login__input-section">
-        <label className="login__label">Пароль</label>
+          <label className="login__label">Пароль</label>
           <input type="password" className="login__input" required minLength="2" maxLength="200" />
           <span className="login__input-error login__input-error_active"></span>
         </section>

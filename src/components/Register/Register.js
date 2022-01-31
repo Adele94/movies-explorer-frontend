@@ -13,12 +13,12 @@ function Register(props) {
           <span className="register__input-error name-input-error"></span>
         </section>
         <section className="register__input-section">
-        <label className="register__label">E-mail</label>
+          <label className="register__label">E-mail</label>
           <input type="email" className="register__input" required minLength="2" maxLength="200" />
           <span className="register__input-error description-input-error"></span>
         </section>
         <section className="register__input-section">
-        <label className="register__label">Пароль</label>
+          <label className="register__label">Пароль</label>
           <input type="password" className="register__input register__input-password" required minLength="5" maxLength="40" />
           <span className="register__input-error description-input-error register__input-error_active">Что-то пошло не так...</span>
         </section>
