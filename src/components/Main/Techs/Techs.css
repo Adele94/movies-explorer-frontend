@@ -118,13 +118,14 @@
 
 @media screen and (max-width: 320px) {
   .techs {
-    margin-left: -10px;
-    margin-right: -10px;
+    margin-left: 8px;
+    margin-right: 8px;
+    background-color: #202020;
   }
 
   .techs__title {
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 0px;
+    margin-right: 0px;
     padding-top: 70px;
     font-size: 18px;
     line-height: 22px;

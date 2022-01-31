@@ -139,6 +139,11 @@
 }
 
 @media screen and (max-width: 540px) {
+  .aboutMe {
+   margin-left: 4px;
+   margin-right: 4px;
+  }
+
   .aboutMe__title {
     margin: 70px auto 0;
     font-size: 18px;
@@ -158,10 +163,11 @@
   .aboutMe__conteiner {
     margin: 60px auto 0;
     flex-direction: column-reverse;
+    align-items: center;
   }
 
   .aboutMe__image {
-    max-width: 292px;
+    min-width: 292px;
     max-height: 352px;
   }
 
