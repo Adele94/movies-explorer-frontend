@@ -8,7 +8,6 @@
 
 .register__logo {
   margin-bottom: 40px;
-  margin-left: 0;
   text-align: left;
 }
 .register__logo:hover {
@@ -52,6 +51,7 @@
   background-color: #2F2F2F;
   border: none;
   border-radius: 8px;
+  box-sizing: border-box;
 }
 
 .register__input-section {
@@ -63,7 +63,7 @@
 .register__submit{
   min-width: 100%;
   height: 45px;
-  margin-top: 70px;
+  margin-top: 50px;
   border: none;
   background: #4285F4;
   border-radius: 3px;
@@ -76,6 +76,8 @@
 }
 
 .register__question {
+  margin-top: 16px;
+  margin-bottom: 0;
   font-family: Inter;
   font-style: normal;
   font-weight: normal;
@@ -117,6 +119,7 @@
 
 .register__input-error {
   margin: 0;
+  margin-top: 10px;
   padding: 0;
   font-family: Inter;
   font-style: normal;
@@ -125,8 +128,6 @@
   line-height: 12px;
   color: #EE3465;
   opacity: 0;
-  position: absolute;
-  top: calc(100% + 3px);
   left: 0;
   transition: opacity 0.3s;
   box-sizing: border-box;
@@ -134,4 +135,41 @@
   
 .register__input-error_active {
   opacity: 1;
+}
+
+@media screen and (max-width: 768px) {
+  .register {
+    padding-top: 232px;
+    padding-bottom: 232px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .register {
+    padding-top: 56px;
+    padding-bottom: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  .register__logo {
+    margin: 0 auto;
+    margin-bottom: 50px;
+    display: flex;
+    text-align: center;
+  }
+  .register__title {
+    margin-bottom: 80px;
+    text-align: center;
+  }
+  .register__submit{
+    margin-top: 137px;
+  }
+  .register__question {
+    margin-top: 14px;
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .register__link{
+    margin-left: 7px;
+  }
 }

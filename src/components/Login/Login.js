@@ -15,7 +15,7 @@ function Login(props) {
         <section className="login__input-section">
         <label className="login__label">Пароль</label>
           <input type="text" className="login__input"  value={''}  required minLength="2" maxLength="200" />
-          <span className="login__input-error login__input-error_active">Что-то пошло не так...</span>
+          <span className="login__input-error login__input-error_active"></span>
         </section>
         <div className="login__button-container" >
           <button type="submit" className="login__submit"> Войти </button>

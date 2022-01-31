@@ -20,7 +20,7 @@ function Register(props) {
         <section className="register__input-section">
         <label className="register__label">Пароль</label>
           <input type="password" className="register__input register__input-password" required minLength="2" maxLength="200" />
-          <span className="register__input-error description-input-error register__input-error_active"></span>
+          <span className="register__input-error description-input-error register__input-error_active">Что-то пошло не так...</span>
         </section>
         <div className="register__button-container" >
           <button type="submit" className="register__submit"> Зарегистрироваться </button>
