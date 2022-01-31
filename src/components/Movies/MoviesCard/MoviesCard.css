@@ -15,9 +15,15 @@
   border-radius: 6px;
 }
 
+.moviesCard__image:hover {
+  cursor: pointer;
+}
+
 .moviesCard__text {
   margin: 0 0 0 0 ;
+  text-align: left;
   max-width: 250px;
+  max-height: 36px;
   font-family: Inter;
   font-style: normal;
   font-weight: 500;
@@ -25,20 +31,27 @@
   line-height: 16px;
   /* identical to box height */
   color: #FFFFFF;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .moviesCard__save {
   margin: 0;
-  padding: 0;
   margin-top: 14px;
   margin-right: 14px;
-  min-width: 17px;
+  padding: 0;
+  min-width: 72px;
   min-height: 21px;
   align-self: flex-end;
   position: absolute;
   background: #313131;
   border: 0;
   border-radius: 30px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 9px;
   color: #FFFFFF;
 }
   
@@ -75,6 +88,8 @@
 .moviesCard__duration {
   margin-top: 0;
   margin-bottom: 0;
+  min-width: 52px;
+  max-height: 18px;
   font-family: Inter;
   font-style: normal;
   font-weight: normal;
@@ -83,7 +98,7 @@
   /* or 91% */
   display: flex;
   align-items: center;
-  text-align: center;
+  justify-content: center;
   color: #8B8B8B;
   background: #2F2F2F;
   border-radius: 3px;
@@ -112,12 +127,30 @@
     max-width: 339px;
     max-height: 190px;
   }
+  .moviesCard__info {
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .moviesCard__text {
+    max-height: 16px;
+    white-space: nowrap;
+  }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 540px) {
   .moviesCard__image {
     max-width: 300px;
     max-height: 168px;
+  }
+  .moviesCard__info {
+    margin-top: 16px;
+  }
+  .moviesCard__text {
+    font-size: 12px;
+    line-height: 15px;
   }
   .moviesCard__save {
     margin-top: 10px;

@@ -4,10 +4,10 @@ import tumbImg from "../../../images/smalltumb.svg"
 function SearchForm(props) {
   return (
     <section className="searchForm">
-      <div className="searchForm__form">
+      <form className="searchForm__form">
       <input className="searchForm__input" placeholder="Фильм"></input>
       <button className="searchForm__button"><img className="searchForm__button-img" src={buttonImg}></img></button>
-      </div>
+      </form>
       <div className="searchForm__filter">
       <label class="switch">
         <input className="searchForm__checkbox" type="checkbox" id="togBtn"/>

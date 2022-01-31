@@ -16,7 +16,7 @@
   border-radius: 8px;
   min-height: 50px;
   color: white;
-  min-width: calc(100vw - 55px - 2* 70px);
+  min-width: calc(100vw - 95px - 2* 70px);
 }
 
 .searchForm__button {
@@ -131,16 +131,19 @@ input:checked + .searchForm_slider:before {
   }
 }
 
+@media screen and (max-width: 540px) {
+  .searchForm__filter {
+    margin-top: 47px;
+  }
+}
+
 @media screen and (max-width: 320px) {
   .searchForm__filter{
     margin-left: 4px;
     margin-right: 4px;
-    }
+  }
   .searchForm__input {
     padding: 0 13px 0 13px;
     min-width: calc(100vw - 55px - 2* 30px);
-  }
-  .searchForm__filter {
-    margin-top: 47px;
   }
 }

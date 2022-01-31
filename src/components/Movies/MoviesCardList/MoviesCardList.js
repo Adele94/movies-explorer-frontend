@@ -17,11 +17,7 @@ function MoviesCardList(props) {
       ))
     )}
     <div className="moreButtonSection">
-      <button
-        type='button'
-        className="moreButton">
-        Ещё
-      </button>
+      <button type='button' className="moreButton"> Ещё </button>
     </div>
   </section>
   );
