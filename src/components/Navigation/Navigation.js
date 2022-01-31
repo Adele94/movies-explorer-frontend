@@ -13,8 +13,8 @@ function Navigation(props) {
             </ul>
           </nav>
           <Link to="/profile" className="navigation__profile">
-            <p className='header__profileText'>Аккаунт</p>
-            <div className='header__profileIcon'></div>
+            <p className='navigation__profileText'>Аккаунт</p>
+            <div className='navigation__profileIcon'></div>
           </Link>
       </div>
     </section>

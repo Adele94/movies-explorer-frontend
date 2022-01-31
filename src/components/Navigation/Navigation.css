@@ -98,6 +98,29 @@
   cursor: pointer;
 }
 
+.navigation__profileText {
+  margin: 0 17px 0 0;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  /* identical to box height, or 114% */
+  display: flex;
+  align-items: center;
+  color: #FFFFFF;
+}
+
+.navigation__profileIcon {
+  min-width: 26px;
+  min-height: 30px;
+  background-image: url('../../images/header-buttonIcon.svg');
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-position: center;
+  background-color: #313131;
+  border-radius: 4px;
+}
 @media screen and (max-width: 540px) {
   .navigation__container {
     min-width: 100%;

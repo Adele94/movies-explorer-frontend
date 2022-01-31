@@ -2,7 +2,7 @@ import './App.css';
 import Main from '../Main/Main';
 import Header from '../Header/Header';
 import React, {Fragment, useState} from 'react';
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import Movies from '../Movies/Movies';
 import Footer from '../Footer/Footer';
 import Profile from '../Profile/Profile';

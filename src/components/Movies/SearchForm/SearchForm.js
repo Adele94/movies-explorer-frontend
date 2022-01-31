@@ -9,8 +9,8 @@ function SearchForm(props) {
       <button className="searchForm__button"><img className="searchForm__button-img" src={buttonImg}></img></button>
       </form>
       <div className="searchForm__filter">
-      <label class="switch">
-        <input className="searchForm__checkbox" type="checkbox" id="togBtn"/>
+      <label class="searchForm__switch">
+        <input className="searchForm__checkbox" type="checkbox"/>
         <div class="searchForm_slider"></div>
       </label>
       <p className="searchForm__shortMovies">Короткометражки</p>
