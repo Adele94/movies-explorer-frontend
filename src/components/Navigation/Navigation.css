@@ -98,13 +98,16 @@
   cursor: pointer;
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 540px) {
   .navigation__container {
     min-width: 100%;
-    padding-top: 159px;
+    padding-top: 144px;
   } 
   .navigation__profile {
     margin-top: auto;
     margin-bottom: 48px;
+  }
+  .navigation__link{
+    margin-bottom: 24px;
   }
 }

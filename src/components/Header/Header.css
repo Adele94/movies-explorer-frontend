@@ -157,6 +157,13 @@
     display: none;
   }
 }
+@media screen and (max-width: 540px) {
+  .header_menuButton {
+    min-width: 40px;
+    min-height: 43px;
+    margin-right: 14px;
+  }
+}
 @media screen and (max-width: 320px) {
   .header {
     margin-left: -10px;
@@ -177,9 +184,5 @@
     min-width: 54px;
     min-height: 26px;
   }
-  .header_menuButton {
-    min-width: 40px;
-    min-height: 43px;
-    margin-right: 14px;
-  }
+
 }
