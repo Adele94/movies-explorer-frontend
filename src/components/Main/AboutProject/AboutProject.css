@@ -53,7 +53,7 @@
   min-height: 36px;
   align-items: center;
   grid-template-columns: minmax(min-content, 226px) minmax(min-content, 1fr);
-  background: linear-gradient(to right, #3DDC84 0%,#3DDC84 20%,#303030 20%, #303030 100%);
+  background: linear-gradient(to right, #3DDC84 0%,#3DDC84 226px,#303030 226px, #303030 100%);
 }
 
 .aboutProject__scale-text {
@@ -64,7 +64,7 @@
   grid-template-columns: minmax(min-content, 226px) minmax(min-content, 1fr);
 }
 
-.aboutProject__scale-text_black {
+.aboutProject__scale-text-black {
   margin: 0 auto;
   font-family: Inter;
   font-style: normal;
@@ -75,7 +75,7 @@
   color: black;
 }
 
-.aboutProject__scale-text_grey {
+.aboutProject__scale-text__grey {
   margin: 0 auto;
   font-family: Inter;
   font-style: normal;
@@ -88,7 +88,7 @@
   color: #8B8B8B;
 }
 
-.aboutProject__scale-text_white {
+.aboutProject__scale__text-white {
   margin: 0 auto;
   font-family: Inter;
   font-style: normal;
@@ -123,7 +123,7 @@
 
   .aboutProject__scale {
     grid-template-columns: minmax(min-content, 140px) minmax(min-content, 1fr);
-    background: linear-gradient(to right, #3DDC84 0%,#3DDC84 21%,#303030 21%, #303030 100%);
+    background: linear-gradient(to right, #3DDC84 0%,#3DDC84 140px,#303030 140px, #303030 100%);
   }
 
   .aboutProject__scale-text {
@@ -163,24 +163,24 @@
     margin-bottom:10px;
     min-height: 35px;
     grid-template-columns: minmax(min-content, 100px) minmax(min-content, 1fr);
-    background: linear-gradient(to right, #3DDC84 0%,#3DDC84 34%,#303030 34%, #303030 100%);
+    background: linear-gradient(to right, #3DDC84 0%,#3DDC84 100px,#303030 100px, #303030 100%);
   }
   .aboutProject__scale-text {
     padding-bottom: 70px;
     grid-template-columns: minmax(min-content, 100px) minmax(min-content, 1fr);
   }
 
-  .aboutProject__scale-text_black {
+  .aboutProject__scale__text-black {
     font-size: 11px;
     line-height: 13px;
   }
   
-  .aboutProject__scale-text_white {
+  .aboutProject__scale__text-white {
     font-size: 11px;
     line-height: 13px;
   }
 
-  .aboutProject__scale-text_grey {
+  .aboutProject__scale-text__grey {
     font-size: 11px;
     line-height: 13px;
   }

@@ -13,12 +13,12 @@ function AboutProject(props) {
         </div>
       </div>
       <div className="aboutProject__scale">
-        <p className="aboutProject__scale-text_black">1 неделя</p>
-        <p className="aboutProject__scale-text_white">4 недели</p>
+        <p className="aboutProject__scale__text-black">1 неделя</p>
+        <p className="aboutProject__scale__text-white">4 недели</p>
       </div>
       <div className="aboutProject__scale-text">
-        <p className="aboutProject__scale-text_grey">Back-end</p>
-        <p className="aboutProject__scale-text_grey">Front-end</p>
+        <p className="aboutProject__scale-text__grey">Back-end</p>
+        <p className="aboutProject__scale-text__grey">Front-end</p>
       </div>
     </section>
   );

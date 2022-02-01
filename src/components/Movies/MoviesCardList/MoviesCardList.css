@@ -1,15 +1,17 @@
 .moviesCardList {
+  margin-top: 70px;
+  margin-bottom: 28px;
   display: grid;
   column-gap: 30px;
   grid-template-columns: repeat(auto-fit,minmax(360px,1fr));
   justify-items: center;
-  margin-top: 70px;
   row-gap: 43px;
   box-sizing: border-box;
 }
 
 .moreButtonSection {
-  margin: 16px auto 80px;
+  padding-top: 50px;
+  padding-bottom: 80px;
 } 
 
 .moreButton {
@@ -35,18 +37,30 @@
   cursor: pointer;
 }
 
+.save-devider {
+  margin-top: 102px;
+  min-height: 140px;
+  min-width: 50%;
+  position: relative;
+}
+
 @media screen and (max-width: 768px) {
   .moviesCardList {
+    margin-bottom: 10px;
     row-gap: 47px;
     grid-template-columns: repeat(auto-fit,minmax(339px,1fr));
     margin-left: -20px;
     margin-right: -20px;
   }
-  .moreButtonSection {
-    margin-top: 13px;
-  }
   .moreButton {
     width: calc(100vw - 2*30px);
+  }
+  .moviesCardsBottom {
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+  .save-devider {
+    margin-top: 35px;
   }
 }
 
@@ -58,16 +72,25 @@
     row-gap: 39px;
     grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
   }
-  .moreButtonSection {
-    margin-top: 21px;
-}
+
+  .moviesCardsBottom {
+    margin-left: -30px;
+    margin-right: -30px;
+  }
 }
 @media screen and (max-width: 320px) {
   .moviesCardList {
     margin-left: 0;
     margin-right: 0;
   }
+  .moviesCardsBottom {
+    margin-left: 0;
+    margin-right: 0;
+  }
   .moreButton {
     width: calc(100vw - 2*10px);
+  }
+  .save-devider {
+    margin-top: 0;
   }
 }
