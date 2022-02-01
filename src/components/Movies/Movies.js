@@ -5,8 +5,8 @@ import SearchForm from "./SearchForm/SearchForm";
 function Movies(props) {
   return (
     <div className="movies">
-      <SearchForm />
-      <MoviesCardList onCardSave={props.onCardSave} cards={props.cards} savedCards={props.savedCards}/>
+      <SearchForm  onSubmit={props.onSubmit} onChange={props.onChange} value={props.value}/>
+      <MoviesCardList onCardSave={props.onCardSave} onCardClick={props.onCardClick} cards={props.cards} movies={props.movies} savedCards={props.savedCards}/>
     </div>
 );
 }

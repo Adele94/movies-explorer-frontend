@@ -25,9 +25,13 @@ function MoviesCard(props) {
     setIsSaved(props.onCardSave(props.cardItem));
   }
 
+  function handleClick() {
+    props.onCardClick(props.cardItem);
+  }
+
   return (
     <div className="moviesCard">
-    <img className="moviesCard__image"  src={props.src} alt={props.name} />
+    <img className="moviesCard__image" onClick={handleClick}  src={props.src} alt={props.name} />
     {location.pathname === '/movies'? (
       <button type="button" onClick={handleSaveClick} className={cardSaveButtonClassName}>{buttonText}</button>
     ) : (

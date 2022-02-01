@@ -1,7 +1,7 @@
 import './App.css';
 import Main from '../Main/Main';
 import Header from '../Header/Header';
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useState, useEffect} from 'react';
 import {Route, Routes} from 'react-router-dom';
 import Movies from '../Movies/Movies';
 import Footer from '../Footer/Footer';
@@ -11,6 +11,8 @@ import Register from '../Register/Register';
 import Login from '../Login/Login';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import SavedMovies from '../SavedMovies/SavedMovies';
+import moviesApi from "../../utils/MoviesApi";
+
 import pic1 from "../../images/picture1.png";
 import pic2 from "../../images/picture2.png";
 import pic3 from "../../images/picture3.png";
@@ -25,6 +27,8 @@ import pic11 from "../../images/picture11.png";
 import pic12 from "../../images/picture12.png";
 
 function App() {
+  const [cards, setCards] = useState([]);
+  const [movies, setMovies] = useState([]);
 
   const initialCards = [
     {
@@ -134,7 +138,8 @@ function App() {
       duration: 77
     }
   ];
-
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [searchQuery, setSearchQuery] = React.useState();
   const [isHeaderNavigationOpen, setIsHeaderNavigationOpen] = useState(false);
 
   function handleHeaderNavigationClick() {
@@ -149,6 +154,46 @@ function App() {
     card.isSaved = !card.isSaved;
     return  card.isSaved;
   }
+
+  function handleCardClick(card) {
+    window.open(card.trailerLink,'_blank');
+  }
+  const handleSearchFormChange = (event) => {
+    setSearchQuery(event.target.value);
+   }
+
+  const handleSubmit = (event) => {
+     event.preventDefault();
+     setIsSubmitting(true);
+   }
+
+
+  useEffect(() => {
+    if(true){
+    moviesApi.getInitialCards()
+      .then((result) => {
+        setMovies(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    }
+  }, []);
+
+  const results = [];
+  useEffect( () => {
+    if(isSubmitting) {
+    movies.filter((item) => {
+      const searchResult = item.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
+      if(searchResult)
+      results.push(item);
+    })}
+    if(results.length!==0)
+      setCards(results);
+    setIsSubmitting(false);
+  },[searchQuery, isSubmitting])
+
+  
 
   return (
     <div className="App">
@@ -177,12 +222,12 @@ function App() {
         <Route path="/" element={<Main/>} exact/>
         <Route path="/movies"  element={
         <ProtectedRoute loggedIn={true}>
-          <Movies cards={initialCards} savedCards={savedCards} onCardSave={handleCardSave}/>
+          <Movies cards={cards} savedCards={savedCards} onCardSave={handleCardSave} onSubmit={handleSubmit} onChange={handleSearchFormChange} value={searchQuery} onCardClick={handleCardClick}/>
         </ProtectedRoute>
          }/>
         <Route path="/saved-movies"  element={
         <ProtectedRoute loggedIn={true}>
-          <SavedMovies cards={initialCards} savedCards={savedCards}/>
+          <SavedMovies cards={cards} savedCards={savedCards} onCardSave={handleCardSave} onSubmit={handleSubmit} onChange={handleSearchFormChange} value={searchQuery} onCardClick={handleCardClick}/>
         </ProtectedRoute>
          }/>
         <Route path="/profile" element={
