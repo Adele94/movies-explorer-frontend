@@ -9,7 +9,7 @@ function MoviesCard(props) {
 
   const getTime = (hour===0) ? (min.toString() + "м") : (hour.toString() + "ч " + min.toString() + "м");
   
-  const [isSaved, setIsSaved] = useState(props.cardItem.isSaved);
+  const [isSaved, setIsSaved] = useState(false);
 
   const cardSaveButtonClassName = (
       `${isSaved ? 'moviesCard__saved' : 'moviesCard__save'}`
@@ -18,11 +18,19 @@ function MoviesCard(props) {
   const buttonText = (isSaved ? '' : 'Сохранить');
 
   function handleSaveClick() {
-    setIsSaved(props.onCardSave(props.cardItem));
+    if(!isSaved){
+      props.onCardSave(props.cardItem)
+      setIsSaved(true);
+    }
+    else{
+      props.onCardDelete(props.cardItem);
+      setIsSaved(false);
+    }
   }
 
   function handleDeleteClick() {
-    setIsSaved(props.onCardSave(props.cardItem));
+    console.log("фильм удален");
+    setIsSaved(props.onCardDelete(props.cardItem));
   }
 
   function handleClick() {

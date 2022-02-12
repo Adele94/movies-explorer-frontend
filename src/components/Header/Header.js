@@ -23,7 +23,7 @@ function Header(props) {
     }
     {
       props.loggedIn &&
-      <header className="header header__otherPage">
+      <header className="header header_otherPage">
       <Link to="/"><img className="header__logo" src={headerLogo} alt="Логотип" /></Link>
           <nav>
             <ul className="header__navList">
@@ -35,7 +35,7 @@ function Header(props) {
             <p className='header__profileText'>Аккаунт</p>
             <div className='header__profileIcon'></div>
           </Link>
-          <button type='button' className="header_menuButton" onClick={props.onHeaderNavigation}> </button>
+          <button type='button' className="header__menuButton" onClick={props.onHeaderNavigation}> </button>
           <Navigation isOpen={props.isOpen} onClose={props.onClose} />
       </header>
     }

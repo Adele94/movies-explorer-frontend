@@ -64,7 +64,7 @@
   height: 20px;
 }
 
-.searchForm_slider {
+.searchForm__slider {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -78,7 +78,7 @@
   box-shadow: 0px 4px 4px rgba(50, 50, 71, 0.08), 0px 4px 8px rgba(50, 50, 71, 0.06);
 }
 
-.searchForm_slider:before {
+.searchForm__slider:before {
   position: absolute;
   content: "";
   height: 16px;
@@ -93,18 +93,18 @@
   border-radius: 50%;
 }
 
-input:checked + .searchForm_slider {
+input:checked + .searchForm__slider {
   background-color: #202020;
 }
 
-input:checked + .searchForm_slider:before {
+input:checked + .searchForm__slider:before {
   -webkit-transform: translateX(16px);
   -ms-transform: translateX(16px);
   transform: translateX(16px);
 }
 
 /*------ ADDED CSS ---------*/
-.searchForm_slider:after
+.searchForm__slider:after
 {
  display: block;
  position: absolute;

@@ -1,8 +1,8 @@
 import './App.css';
 import Main from '../Main/Main';
 import Header from '../Header/Header';
-import React, {Fragment, useState, useEffect} from 'react';
-import {Route, Routes} from 'react-router-dom';
+import React, { Fragment, useState, useEffect } from 'react';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import Movies from '../Movies/Movies';
 import Footer from '../Footer/Footer';
 import Profile from '../Profile/Profile';
@@ -12,135 +12,25 @@ import Login from '../Login/Login';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import moviesApi from "../../utils/MoviesApi";
-
-import pic1 from "../../images/picture1.png";
-import pic2 from "../../images/picture2.png";
-import pic3 from "../../images/picture3.png";
-import pic4 from "../../images/picture4.png";
-import pic5 from "../../images/picture5.png";
-import pic6 from "../../images/picture6.png";
-import pic7 from "../../images/picture7.png";
-import pic8 from "../../images/picture8.png";
-import pic9 from "../../images/picture9.png";
-import pic10 from "../../images/picture10.png";
-import pic11 from "../../images/picture11.png";
-import pic12 from "../../images/picture12.png";
+import * as MainApi from "../../utils/MainApi";
+import { CurrentUserContext } from '../../context/CurrentUserContext';
+import { useLocation } from 'react-router-dom';
 
 function App() {
   const [cards, setCards] = useState([]);
+  const [savedCards, setSavedCards] = useState([]);
   const [movies, setMovies] = useState([]);
-
-  const initialCards = [
-    {
-      name: '33 слова о дизайне',
-      link: pic1,
-      duration: 77,
-      isSaved: false
-    },
-    {
-      name: 'Киноальманах «100 лет дизайна»',
-      link: pic2,
-      duration: 55,
-      isSaved: false
-    },
-    {
-      name: 'В погоне за Бенкси',
-      link: pic3,
-      duration: 148,
-      isSaved: false
-    },
-    {
-      name: 'Баския: Взрыв реальности',
-      link: pic4,
-      duration: 77,
-      isSaved: false
-    },
-    {
-      name: 'Бег это свобода',
-      link: pic5,
-      duration: 77,
-      isSaved: false
-    },
-    {
-      name: 'Книготорговцы',
-      link: pic6,
-      duration: 77,
-      isSaved: false
-    },
-    {
-      name: 'Когда я думаю о Германии ночью',
-      link: pic7,
-      duration: 77,
-      isSaved: false
-    },
-    {
-      name: 'Gimme Danger: История Игги и The Stooges',
-      link: pic8,
-      duration: 77,
-      isSaved: false
-    },
-    {
-      name: 'Дженис: Маленькая девочка грустит',
-      link: pic9,
-      duration: 77,
-      isSaved: false
-    },
-    {
-      name: 'Соберись перед прыжком',
-      link: pic10,
-      duration: 77,
-      isSaved: false
-    },
-    {
-      name: 'Пи Джей Харви: A dog called money',
-      link: pic11,
-      duration: 77,
-      isSaved: false
-    },
-    {
-      name: 'По волнам: Искусство звука в кино',
-      link: pic12,
-      duration: 77,
-      isSaved: false
-    }
-  ];
-
-  const savedCards = [
-  
-    {
-      name: 'Баския: Взрыв реальности',
-      link: pic4,
-      duration: 77
-    },
-    {
-      name: 'Бег это свобода',
-      link: pic5,
-      duration: 77
-    },
-    {
-      name: 'Книготорговцы',
-      link: pic6,
-      duration: 77
-    },
-    {
-      name: 'Когда я думаю о Германии ночью',
-      link: pic7,
-      duration: 77
-    },
-    {
-      name: 'Пи Джей Харви: A dog called money',
-      link: pic11,
-      duration: 77
-    },
-    {
-      name: 'По волнам: Искусство звука в кино',
-      link: pic12,
-      duration: 77
-    }
-  ];
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
-  const [searchQuery, setSearchQuery] = React.useState();
+  const [searchMovies, setSearchMovies] = useState([]);
+  const [shortMovies, setShortMovies] = useState([]);
   const [isHeaderNavigationOpen, setIsHeaderNavigationOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [isRegSuccess, setRegSuccess] = useState(false);
+  const [userEmail, setUserEmail] = useState('');
+  const [userName, setUserName] = useState('');
+  const [currentUser, setCurrentUser] = useState({});
+
+  const navigate = useNavigate();
+  let location = useLocation();
 
   function handleHeaderNavigationClick() {
     setIsHeaderNavigationOpen(true);
@@ -152,27 +42,38 @@ function App() {
 
   function handleCardSave(card) {
     card.isSaved = !card.isSaved;
-    return  card.isSaved;
+    MainApi.addSavedMovie(card)
+    .then((newCard) => {
+      setSavedCards([newCard, ...savedCards]);
+    })
+    return card.isSaved;
+  }
+
+  function handleCardDelete(card) {
+    card.isSaved = !card.isSaved;
+    MainApi.deleteSavedMovie(card)
+    .then((res) => {
+      setSavedCards(savedCards.filter(item => item._id !== card._id));
+    })
+    return card.isSaved;
   }
 
   function handleCardClick(card) {
-    window.open(card.trailerLink,'_blank');
+    window.open(card.trailerLink, '_blank');
   }
-  const handleSearchFormChange = (event) => {
-    setSearchQuery(event.target.value);
-   }
-
-  const handleSubmit = (event) => {
-     event.preventDefault();
-     setIsSubmitting(true);
-   }
-
 
   useEffect(() => {
-    if(true){
-    moviesApi.getInitialCards()
-      .then((result) => {
-        setMovies(result);
+    if (true) {
+      moviesApi.getInitialCards()
+        .then((res) => {
+          setMovies(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      MainApi.getSavedMovies()
+      .then((res) => {
+        setSavedCards(res);
       })
       .catch((err) => {
         console.log(err);
@@ -180,82 +81,210 @@ function App() {
     }
   }, []);
 
-  const results = [];
-  useEffect( () => {
-    if(isSubmitting) {
-    movies.filter((item) => {
-      const searchResult = item.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
-      if(searchResult)
-      results.push(item);
-    })}
-    if(results.length!==0)
-      setCards(results);
-    setIsSubmitting(false);
-  },[searchQuery, isSubmitting])
 
-  
+  function searchAllMovies(searchQuery, isChecked) {
+    const searchResult = [];
+    const shortResult = [];
+    if (searchQuery) {
+      if(location.pathname === '/movies'){
+      movies.filter((item) => {
+        const searchItem = item.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
+        if (searchItem) {
+          searchResult.push(item);
+          if (item.duration <= 40)
+            shortResult.push(item);
+        }
+      })
+       }
+       else {
+        savedCards.filter((item) => {
+          const searchItem = item.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
+          if (searchItem) {
+            searchResult.push(item);
+            if (item.duration <= 40)
+              shortResult.push(item);
+          }
+        })
+       }
+      if (searchResult.length !== 0) {
+        setSearchMovies(searchResult);
+      }
+      if (shortResult !== 0) {
+        setShortMovies(shortResult);
+      }
+      if (isChecked) {
+        setCards(shortResult);
+      }
+      else {
+        setCards(searchResult);
+      }
+    }
+    else {
+      setCards([]);
+    }
+  }
+
+  function handleRegister({ name, email, password }) {
+    MainApi.register({ name, email, password })
+      .then(() => {
+        setRegSuccess(true);
+        navigate('/signin');
+      })
+      .catch((err) => {
+        setRegSuccess(false);
+        console.log(err);
+      })
+  }
+
+  function handleLogin({ email, password }) {
+    MainApi.authorize({ email, password })
+      .then((res) => {
+        if (res.token) {
+          localStorage.setItem('token', res.token);
+          MainApi.getProfile().then(res => {
+            setCurrentUser(res);
+            setUserName(res.name);
+          });
+          setUserEmail(email);
+          setLoggedIn(true);
+          navigate('/movies')
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+  function handleEditProfile({ name, email }) {
+    MainApi.updateProfile({ name, email })
+      .then((res) => {
+        setCurrentUser(res.data)
+      }
+      )
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+
+  function handleSignOut() {
+    localStorage.removeItem('token');
+    setUserEmail('');
+    setUserName('');
+    setCurrentUser('');
+    setLoggedIn(false);
+  }
+
+  function handleTokenCheck() {
+    if (localStorage.getItem('token')) {
+      const jwt = localStorage.getItem('token');
+      // проверяем токен пользователя
+      MainApi.checkToken(jwt)
+        .then((res) => {
+          setUserEmail(res.email)
+          setLoggedIn(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }
+
+  useEffect(() => {
+    handleTokenCheck();
+    if (loggedIn) {
+      MainApi.getProfile().then(res => {
+        setCurrentUser(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    }
+  }, [loggedIn]);
+
+
+  useEffect(() => {
+    if (loggedIn === true) {
+      navigate("/movies");
+    }
+  }, [loggedIn]);
 
   return (
-    <div className="App">
-    <Fragment>
-      <Routes>  
-        <Route path="/" element={<Header loggedIn={false}/>} exact/>
-        <Route path="/movies" element={
-          <ProtectedRoute loggedIn={true}>
-            <Header loggedIn={true} onHeaderNavigation={handleHeaderNavigationClick} isOpen={isHeaderNavigationOpen} onClose={closeHeaderNavigation}/>
-          </ProtectedRoute>
-        }/>
-        <Route path="/saved-movies" element={
-          <ProtectedRoute loggedIn={true}>
-            <Header loggedIn={true} onHeaderNavigation={handleHeaderNavigationClick} isOpen={isHeaderNavigationOpen} onClose={closeHeaderNavigation}/>
-          </ProtectedRoute>
-        }/>
-        <Route path="/profile" element={
-          <ProtectedRoute loggedIn={true}>
-            <Header loggedIn={true} onHeaderNavigation={handleHeaderNavigationClick} isOpen={isHeaderNavigationOpen} onClose={closeHeaderNavigation}/>
-          </ProtectedRoute>
-        }/>
-      </Routes>
-      </Fragment>
-    <Fragment>
-      <Routes>  
-        <Route path="/" element={<Main/>} exact/>
-        <Route path="/movies"  element={
-        <ProtectedRoute loggedIn={true}>
-          <Movies cards={cards} savedCards={savedCards} onCardSave={handleCardSave} onSubmit={handleSubmit} onChange={handleSearchFormChange} value={searchQuery} onCardClick={handleCardClick}/>
-        </ProtectedRoute>
-         }/>
-        <Route path="/saved-movies"  element={
-        <ProtectedRoute loggedIn={true}>
-          <SavedMovies cards={cards} savedCards={savedCards} onCardSave={handleCardSave} onSubmit={handleSubmit} onChange={handleSearchFormChange} value={searchQuery} onCardClick={handleCardClick}/>
-        </ProtectedRoute>
-         }/>
-        <Route path="/profile" element={
-        <ProtectedRoute loggedIn={true}>
-          <Profile />
-        </ProtectedRoute>
-         }/>
-        <Route path="/signup" element={<Register />}/>
-        <Route path="/signin" element={<Login />}/>
-        <Route path='*' element={<NotFoundPage />}/>
-      </Routes>
-      </Fragment>
-      <Fragment>
-      <Routes>  
-        <Route path="/" element={<Footer/>} exact/>
-        <Route path="/movies" element={
-          <ProtectedRoute loggedIn={true}>
-            <Footer />
-          </ProtectedRoute>
-        }/>
-        <Route path="/saved-movies" element={
-          <ProtectedRoute loggedIn={true}>
-            <Footer />
-          </ProtectedRoute>
-        }/>
-      </Routes>
-      </Fragment>
-    </div>
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="App">
+        <Fragment>
+          <Routes>
+            <Route path="/" element={<Header loggedIn={loggedIn} />} exact />
+            <Route path="/movies" element={
+              <ProtectedRoute loggedIn={loggedIn}>
+                <Header loggedIn={loggedIn} onHeaderNavigation={handleHeaderNavigationClick} isOpen={isHeaderNavigationOpen} onClose={closeHeaderNavigation} />
+              </ProtectedRoute>
+            } />
+            <Route path="/saved-movies" element={
+              <ProtectedRoute loggedIn={loggedIn}>
+                <Header loggedIn={loggedIn} onHeaderNavigation={handleHeaderNavigationClick} isOpen={isHeaderNavigationOpen} onClose={closeHeaderNavigation} />
+              </ProtectedRoute>
+            } />
+            <Route path="/profile" element={
+              <ProtectedRoute loggedIn={loggedIn}>
+                <Header loggedIn={loggedIn} onHeaderNavigation={handleHeaderNavigationClick} isOpen={isHeaderNavigationOpen} onClose={closeHeaderNavigation} />
+              </ProtectedRoute>
+            } />
+          </Routes>
+        </Fragment>
+        <Fragment>
+          <Routes>
+            <Route path="/" element={<Main loggedIn={loggedIn} />} exact />
+            <Route exact path="/movies" element={
+              <ProtectedRoute loggedIn={loggedIn}>
+                <Movies
+                  cards={cards}
+                  searchMovies={searchMovies}
+                  shortMovies={shortMovies}
+                  savedMovies={savedCards}
+                  onSearchMovies={searchAllMovies}
+                  onCardSave={handleCardSave}
+                  onCardDelete={handleCardDelete}
+                  onCardClick={handleCardClick} />
+              </ProtectedRoute>
+            } />
+            <Route exact path="/saved-movies" element={
+              <ProtectedRoute loggedIn={loggedIn}>
+                <SavedMovies
+                  cards={cards}
+                  searchMovies={searchMovies}
+                  shortMovies={shortMovies}
+                  savedMovies={savedCards}
+                  onSearchMovies={searchAllMovies}
+                  onCardDelete={handleCardDelete}
+                  onCardClick={handleCardClick} />
+              </ProtectedRoute>
+            } />
+            <Route path="/profile" element={
+              <ProtectedRoute loggedIn={loggedIn}>
+                <Profile onEditProfile={handleEditProfile} onSignOut={handleSignOut} />
+              </ProtectedRoute>
+            } />
+            <Route path="/signup" element={<Register onRegister={handleRegister} />} />
+            <Route path="/signin" element={<Login onLogin={handleLogin} />} />
+            <Route path='*' element={<NotFoundPage />} />
+          </Routes>
+        </Fragment>
+        <Fragment>
+          <Routes>
+            <Route path="/" element={<Footer />} exact />
+            <Route path="/movies" element={
+              <ProtectedRoute loggedIn={loggedIn}>
+                <Footer />
+              </ProtectedRoute>
+            } />
+            <Route path="/saved-movies" element={
+              <ProtectedRoute loggedIn={loggedIn}>
+                <Footer />
+              </ProtectedRoute>
+            } />
+          </Routes>
+        </Fragment>
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 

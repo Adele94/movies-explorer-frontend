@@ -7,6 +7,7 @@ import React from 'react';
 function MoviesCardList(props) {
   let location = useLocation();
   const cards = props.cards;
+  const savedCards = props.savedMovies;
   const [cardsCount, setCardsCount] = React.useState(0);
   const windowWidth = window.innerWidth;
 
@@ -29,20 +30,28 @@ function MoviesCardList(props) {
   };
 
   return (
-      <section className="moviesCardList">
-      {location.pathname === '/movies'? (
+    <section className="moviesCardsSection">
+    <div className="moviesCardList"> 
+     {location.pathname === '/movies'? (
         cards.slice(0, cardsCount).map((item) => (
-            <MoviesCard cardItem={item} onCardSave={props.onCardSave} onCardClick={props.onCardClick} src={moviesApi.url+item.image.url} name={item.nameRU} duration={item.duration} isSaved={false} />
+            <MoviesCard key={item._id} cardItem={item} onCardSave={props.onCardSave} onCardDelete={props.onCardDelete} onCardClick={props.onCardClick} src={moviesApi.url+item.image.url} name={item.nameRU} duration={item.duration} isSaved={false} />
       ))
       ) : (
-        cards.map((item) => (
-          <MoviesCard cardItem={item} onCardSave={props.onCardSave} onCardClick={props.onCardClick} src={moviesApi.url+item.image.url} name={item.nameRU} duration={item.duration} isSaved={false}  />
+        savedCards.map((item) => (
+          <MoviesCard key={item._id} cardItem={item} onCardDelete={props.onCardDelete} onCardClick={props.onCardClick} src={item.thumbnail} name={item.nameRU} duration={item.duration} isSaved={true}  />
         ))
       )}
+      </div>
+      <div className="moviesCardsBottom">
+      {location.pathname === '/movies' ? (
       <div className="moreButtonSection">
         <button type='button' className="moreButton" onClick={handleMoreButtonClick}> Ещё </button>
       </div>
-    </section>
+      ): (
+        <div className="save-devider" />
+      )} 
+    </div>
+  </section>
     );
 }
 

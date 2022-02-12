@@ -7,7 +7,7 @@
   margin-right: -70px;
 }
 
-.header__otherPage {
+.header_otherPage {
   background-color:  #202020;
 }
 
@@ -124,7 +124,7 @@
   border-radius: 4px;
 }
 
-.header_menuButton {
+.header__menuButton {
   margin-right: 50px;
   min-width: 44px;
   min-height: 44px;
@@ -148,7 +148,7 @@
     display: none;
   }
   
-  .header_menuButton {
+  .header__menuButton {
     display: block;
     margin-right: 30px;
   }
@@ -158,7 +158,7 @@
   }
 }
 @media screen and (max-width: 540px) {
-  .header_menuButton {
+  .header__menuButton {
     min-width: 40px;
     min-height: 43px;
     margin-right: 14px;
