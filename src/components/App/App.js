@@ -207,6 +207,7 @@ function App() {
                   onCardSave={handleCardSave}
                   onCardDelete={handleCardDiscard}
                   onCardClick={handleCardClick}
+                  isLoading={isLoading}
                 />
               </ProtectedRoute>
             } />
@@ -216,7 +217,8 @@ function App() {
                   cards={cards}
                   savedMovies={savedCards}
                   onCardDelete={handleCardDelete}
-                  onCardClick={handleCardClick} />
+                  onCardClick={handleCardClick}
+                  isLoading={isLoading} />
               </ProtectedRoute>
             } />
             <Route path="/profile" element={

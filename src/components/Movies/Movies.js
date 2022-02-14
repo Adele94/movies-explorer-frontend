@@ -1,13 +1,14 @@
 import MoviesCardList from "./MoviesCardList/MoviesCardList";
 import SearchForm from "./SearchForm/SearchForm";
 import Preloader from './Preloader/Preloader'
-import {useState} from 'react';
-import {LocalStorageMovies} from '../../utils/LocalStorageMovies'
+import { useState } from 'react';
+import { LocalStorageMovies } from '../../utils/LocalStorageMovies'
 
 function Movies(props) {
   const [searchQuery, setSearchQuery] = LocalStorageMovies("searchQuery", "");
   const [movies] = LocalStorageMovies("movies", "");
   const [foundMovies, setFoundMovies] = useState(searhMovies(movies, searchQuery));
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   function handleCheckboxClick(isChecked) {
     handleSearchMovies(searchQuery, isChecked);
@@ -15,17 +16,18 @@ function Movies(props) {
 
   function handleChangeSearchQuery(value) {
     setSearchQuery(value);
+    setIsSubmitted(false);
   }
 
   function searhMovies(movies, searchQuery) {
     let searchItems = [];
-    if(searchQuery){
-    movies.filter((item) => {
-     if(item.nameRU.toLowerCase().includes(searchQuery.toLowerCase())){
-       searchItems.push(item);
-     }
-    });
-  }
+    if (searchQuery) {
+      movies.filter((item) => {
+        if (item.nameRU.toLowerCase().includes(searchQuery.toLowerCase())) {
+          searchItems.push(item);
+        }
+      });
+    }
     return searchItems;
   }
 
@@ -37,28 +39,30 @@ function Movies(props) {
     else {
       setFoundMovies(searhMovies(movies, searchQuery));
     }
+    setIsSubmitted(true);
   };
 
   return (
     <div className="movies">
-      <SearchForm 
+      <SearchForm
         searchQuery={searchQuery}
-        onSearchMovies={handleSearchMovies} 
+        onSearchMovies={handleSearchMovies}
         onCheckboxClick={handleCheckboxClick}
         onSearchFormChange={handleChangeSearchQuery}
-       />
-      {props.isLoading ?
-      <Preloader /> :
-      <MoviesCardList
-        cards={foundMovies}
-        savedMovies={props.savedMovies}
-        onCardSave={props.onCardSave} 
-        onCardDelete={props.onCardDelete}
-        onCardClick={props.onCardClick} 
       />
+      {searchQuery && isSubmitted ? <p className="main__text">Ничего не найдено.</p> : ''}
+      {props.isLoading ?
+        <Preloader /> :
+        <MoviesCardList
+          cards={foundMovies}
+          savedMovies={props.savedMovies}
+          onCardSave={props.onCardSave}
+          onCardDelete={props.onCardDelete}
+          onCardClick={props.onCardClick}
+        />
       }
     </div>
-);
+  );
 }
 
 export default Movies;

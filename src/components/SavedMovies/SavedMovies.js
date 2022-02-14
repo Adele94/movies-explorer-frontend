@@ -1,10 +1,12 @@
 import MoviesCardList from "../Movies/MoviesCardList/MoviesCardList";
 import SearchForm from "../Movies/SearchForm/SearchForm";
 import { useEffect, useState } from 'react';
+import Preloader from '../Movies/Preloader/Preloader'
 
 function SavedMovies(props) {
   const [searchQuery, setSearchQuery] = useState('');
   const [foundMovies, setFoundMovies] = useState(props.savedMovies);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   function handleCheckboxClick(isChecked) {
     handleSearchMovies(searchQuery, isChecked);
@@ -12,6 +14,7 @@ function SavedMovies(props) {
 
   function handleChangeSearchQuery(value) {
     setSearchQuery(value);
+    setIsSubmitted(false);
   }
 
   function searhMovies(movies, searchQuery) {
@@ -45,6 +48,7 @@ function SavedMovies(props) {
         setFoundMovies(props.savedMovies);
       }
     }
+    setIsSubmitted(true);
   };
   useEffect(() => {
     setFoundMovies(props.savedMovies)
@@ -58,6 +62,9 @@ function SavedMovies(props) {
         onCheckboxClick={handleCheckboxClick}
         onSearchFormChange={handleChangeSearchQuery}
       />
+      {searchQuery && isSubmitted ? <p className="main__text">Ничего не найдено</p> : ''}
+      {props.isLoading ?
+      <Preloader /> :
       <MoviesCardList
         cards={props.cards}
         savedMovies={foundMovies}
@@ -65,6 +72,7 @@ function SavedMovies(props) {
         onCardDelete={props.onCardDelete}
         onCardClick={props.onCardClick}
       />
+}
     </div>
   );
 }
