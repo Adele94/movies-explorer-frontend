@@ -19,17 +19,11 @@ import { useLocation } from 'react-router-dom';
 function App() {
   const [cards, setCards] = useState([]); // фильмы показанные на странице movies
   const [savedCards, setSavedCards] = useState([]);  // фильмы показанные на странице saved-movies
-  const [movies, setMovies] = useState([]); //все фильмы с beat-films
-  const [searchMovies, setSearchMovies] = useState([]);
-  const [shortMovies, setShortMovies] = useState([]);
-  const [searchSavedMovies, setSearchSavedMovies] = useState([]);
-  const [shortSavedMovies, setShortSavedMovies] = useState([]);
   const [isHeaderNavigationOpen, setIsHeaderNavigationOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
-
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  let location = useLocation();
 
   function handleHeaderNavigationClick() {
     setIsHeaderNavigationOpen(true);
@@ -40,21 +34,30 @@ function App() {
   }
 
   function handleCardSave(card) {
-    card.isSaved = !card.isSaved;
-    MainApi.addSavedMovie(card)
+   return MainApi.addSavedMovie(card)
       .then((newCard) => {
         setSavedCards([newCard, ...savedCards]);
+        localStorage.setItem('savedMovies', JSON.stringify([...savedCards, newCard ]));
       })
-    return card.isSaved;
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   function handleCardDelete(card) {
-    card.isSaved = !card.isSaved;
-    MainApi.deleteSavedMovie(card)
-      .then((res) => {
-        setSavedCards(savedCards.filter(item => item._id !== card._id));
+    let deleteSavedCard = savedCards.find(item => item.movieId === card.movieId)
+   return MainApi.deleteSavedMovie(deleteSavedCard)
+      .then(() => {
+        setSavedCards(savedCards.filter(item => item.movieId !== card.movieId));
       })
-    return card.isSaved;
+  }
+
+  function handleCardDiscard(card) {
+    let deleteSavedCard = savedCards.find(item => item.movieId === card.id)
+   return MainApi.deleteSavedMovie(deleteSavedCard)
+      .then(() => {
+        setSavedCards(savedCards.filter(item => item.movieId !== card.id));
+      })
   }
 
   function handleCardClick(card) {
@@ -62,14 +65,20 @@ function App() {
   }
 
   useEffect(() => {
-    moviesApi.getInitialCards()
-      .then((res) => {
-        setMovies(res);
+    setIsLoading(true)
+    moviesApi
+      .getInitialCards()
+      .then(data => {
+        localStorage.setItem('movies', JSON.stringify(data));
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err)
+      })
+      .finally(() => {
+        setIsLoading(false)
       });
-  }, [])
+  }, [loggedIn]);
+
 
   useEffect(() => {
     handleTokenCheck();
@@ -96,90 +105,11 @@ function App() {
     }
   }, [loggedIn]);
 
-
   useEffect(() => {
     if (loggedIn === true) {
       navigate("/movies");
     }
   }, [loggedIn]);
-
-  function handleCheckboxClick(isChecked) {
-    if (location.pathname === '/movies'){
-      if(!isChecked){
-        setCards(searchMovies);
-      }
-      else{
-        setCards(shortMovies)
-      }
-    }
-    else {
-      let SearchSavedMovies = [];
-      let ShortSavedMovies = [];
-
-      savedCards.filter((item) => {
-          SearchSavedMovies.push(item);
-          setSearchSavedMovies(SearchSavedMovies);
-          if (item.duration <= 40){
-          ShortSavedMovies.push(item);
-          setShortSavedMovies(ShortSavedMovies)
-          }
-      })
-      if (!isChecked) {
-        setSavedCards(searchSavedMovies);
-      }
-      else {
-        setSavedCards(shortSavedMovies);
-      }
-    }
-  }
-
-  function searchAllMovies(searchQuery, isChecked) {
-    setSearchMovies([]);
-    setShortMovies([]);
-    setSearchSavedMovies([]);
-    setShortSavedMovies([]);
-    if (location.pathname === '/movies') {
-      if (searchQuery) {
-        movies.filter((item) => {
-          const searchItem = item.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
-          if (searchItem) {
-            setSearchMovies(oldArray =>[...oldArray, item]);
-            if (item.duration <= 40){
-            setShortMovies(oldArray => [...oldArray, item]);
-            }
-          }
-        })
-        if (!isChecked) {
-          setCards(searchMovies);
-        }
-        else {
-          setCards(shortMovies);
-        }
-      }
-      else{
-        setSearchMovies([]);
-        setShortMovies([]);
-        setCards([]);
-      }
-    }
-    else {
-      savedCards.filter((item) => {
-        const searchItem = item.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
-        if (searchItem) {
-          setSearchSavedMovies(oldArray =>[...oldArray, item])
-          if (item.duration <= 40){
-          setShortSavedMovies(oldArray =>[...oldArray, item])
-          }
-        }
-      })
-      if (!isChecked) {
-        setSavedCards(searchSavedMovies);
-      }
-      else {
-        setSavedCards(shortSavedMovies);
-      }
-    }
-  }
 
   function handleRegister({ name, email, password }) {
     MainApi.register({ name, email, password })
@@ -220,6 +150,9 @@ function App() {
 
   function handleSignOut() {
     localStorage.removeItem('token');
+    localStorage.removeItem('savedMovies');
+    localStorage.removeItem('movies');
+    localStorage.removeItem('searchQuery');
     setCurrentUser('');
     setCards([]);
     setSavedCards([]);
@@ -271,10 +204,8 @@ function App() {
                 <Movies
                   cards={cards}
                   savedMovies={savedCards}
-                  onSearchMovies={searchAllMovies}
-                  onCheckboxClick={handleCheckboxClick}
                   onCardSave={handleCardSave}
-                  onCardDelete={handleCardDelete}
+                  onCardDelete={handleCardDiscard}
                   onCardClick={handleCardClick}
                 />
               </ProtectedRoute>
@@ -284,8 +215,6 @@ function App() {
                 <SavedMovies
                   cards={cards}
                   savedMovies={savedCards}
-                  onCheckboxClick={handleCheckboxClick}
-                  onSearchMovies={searchAllMovies}
                   onCardDelete={handleCardDelete}
                   onCardClick={handleCardClick} />
               </ProtectedRoute>

@@ -1,31 +1,26 @@
-import React, {useState} from 'react';
+import React from 'react';
 import buttonImg from "../../../images/text__COLOR_invisible.svg"
 
 function SearchForm(props) {
-const [searchQuery, setSearchQuery] = useState('');
 const checkBox = document.getElementById("searchForm-checkbox");
 
 function handleSearchFormChange(event){
-  setSearchQuery(event.target.value);
+  props.onSearchFormChange(event.target.value);
  }
 
 function handleSubmit(e) {
   e.preventDefault();
-  props.onSearchMovies(searchQuery, checkBox.checked);
+  props.onSearchMovies(props.searchQuery, checkBox.checked );
 }
 
-function handleCheckboxClick() {
-  if (checkBox.checked === true) {
-    props.onCheckboxClick(true);
-    } 
-  else {
-    props.onCheckboxClick(false);
-  }
+function handleCheckboxClick(e) {
+  props.onCheckboxClick(e.target.checked);
 }  
+
 return (
     <section className="searchForm">
       <form className="searchForm__form" onSubmit={handleSubmit}>
-        <input className="searchForm__input" placeholder="Фильм" onChange={handleSearchFormChange}  value={searchQuery || ''} ></input>
+        <input className="searchForm__input" placeholder="Фильм" onChange={handleSearchFormChange}  value={props.searchQuery || ''} ></input>
         <button className="searchForm__button"><img className="searchForm__button-img" src={buttonImg} alt="Кнопка поиска"></img></button>
       </form>
       <div className="searchForm__filter">

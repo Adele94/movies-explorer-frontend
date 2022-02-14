@@ -1,20 +1,72 @@
 import MoviesCardList from "../Movies/MoviesCardList/MoviesCardList";
 import SearchForm from "../Movies/SearchForm/SearchForm";
+import { useEffect, useState } from 'react';
 
 function SavedMovies(props) {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [foundMovies, setFoundMovies] = useState(props.savedMovies);
+
+  function handleCheckboxClick(isChecked) {
+    handleSearchMovies(searchQuery, isChecked);
+  }
+
+  function handleChangeSearchQuery(value) {
+    setSearchQuery(value);
+  }
+
+  function searhMovies(movies, searchQuery) {
+    let searchItems = [];
+    if (searchQuery) {
+      movies.filter((item) => {
+        if (item.nameRU.toLowerCase().includes(searchQuery.toLowerCase())) {
+          searchItems.push(item);
+        }
+      });
+    }
+    return searchItems;
+  }
+
+  function handleSearchMovies(searchQuery, onlyShortMovies) {
+    if (searchQuery) {
+      if (onlyShortMovies) {
+        const shortMovies = props.savedMovies.filter(item => item.duration <= 40)
+        setFoundMovies(searhMovies(shortMovies, searchQuery));
+      }
+      else {
+        setFoundMovies(searhMovies(props.savedMovies, searchQuery));
+      }
+    }
+    else {
+      if (onlyShortMovies) {
+        const shortMovies = props.savedMovies.filter(item => item.duration <= 40)
+        setFoundMovies(shortMovies);
+      }
+      else {
+        setFoundMovies(props.savedMovies);
+      }
+    }
+  };
+  useEffect(() => {
+    setFoundMovies(props.savedMovies)
+  }, [props.savedMovies])
+
   return (
     <div className="saved-movies">
-      <SearchForm onSearchMovies={props.onSearchMovies} 
-      onCheckboxClick={props.onCheckboxClick} />
-      <MoviesCardList 
-       cards={props.cards}
-       savedMovies={props.savedMovies} 
-       onCardSave={props.onCardSave} 
-       onCardDelete={props.onCardDelete}
-       onCardClick={props.onCardClick} 
-       />
+      <SearchForm
+        searchQuery={searchQuery}
+        onSearchMovies={handleSearchMovies}
+        onCheckboxClick={handleCheckboxClick}
+        onSearchFormChange={handleChangeSearchQuery}
+      />
+      <MoviesCardList
+        cards={props.cards}
+        savedMovies={foundMovies}
+        onCardSave={props.onCardSave}
+        onCardDelete={props.onCardDelete}
+        onCardClick={props.onCardClick}
+      />
     </div>
-);
+  );
 }
 
 export default SavedMovies;

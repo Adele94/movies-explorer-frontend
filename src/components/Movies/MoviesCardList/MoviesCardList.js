@@ -34,11 +34,27 @@ function MoviesCardList(props) {
     <div className="moviesCardList"> 
      {location.pathname === '/movies'? (
         cards.slice(0, cardsCount).map((item) => (
-            <MoviesCard key={item._id} cardItem={item} onCardSave={props.onCardSave} onCardDelete={props.onCardDelete} onCardClick={props.onCardClick} src={moviesApi.url+item.image.url} name={item.nameRU} duration={item.duration} isSaved={false} />
+            <MoviesCard 
+            savedMovies = {props.savedMovies}
+            key={item._id} 
+            cardItem={item}  
+            onCardSave={props.onCardSave} 
+            onCardDelete={props.onCardDelete} 
+            onCardClick={props.onCardClick} 
+            src={moviesApi.url+item.image.url} 
+            name={item.nameRU} 
+            duration={item.duration}/>
       ))
       ) : (
         savedCards.map((item) => (
-          <MoviesCard key={item._id} cardItem={item} onCardDelete={props.onCardDelete} onCardClick={props.onCardClick} src={item.thumbnail} name={item.nameRU} duration={item.duration} isSaved={true}  />
+          <MoviesCard 
+          savedMovies = {props.savedMovies}
+          key={item._id} 
+          cardItem={item} 
+          onCardDelete={props.onCardDelete} 
+          onCardClick={props.onCardClick} 
+          src={item.thumbnail} name={item.nameRU} 
+          duration={item.duration} />
         ))
       )}
       </div>

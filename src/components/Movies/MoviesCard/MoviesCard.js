@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 function MoviesCard(props) {
@@ -9,8 +8,7 @@ function MoviesCard(props) {
 
   const getTime = (hour===0) ? (min.toString() + "м") : (hour.toString() + "ч " + min.toString() + "м");
   
-  const [isSaved, setIsSaved] = useState(false);
-
+  const isSaved = props.savedMovies.some(i => i.movieId === props.cardItem.id);
   const cardSaveButtonClassName = (
       `${isSaved ? 'moviesCard__saved' : 'moviesCard__save'}`
   );
@@ -20,17 +18,15 @@ function MoviesCard(props) {
   function handleSaveClick() {
     if(!isSaved){
       props.onCardSave(props.cardItem)
-      setIsSaved(true);
     }
     else{
       props.onCardDelete(props.cardItem);
-      setIsSaved(false);
     }
   }
 
   function handleDeleteClick() {
     console.log("фильм удален");
-    setIsSaved(props.onCardDelete(props.cardItem));
+    props.onCardDelete(props.cardItem);
   }
 
   function handleClick() {
