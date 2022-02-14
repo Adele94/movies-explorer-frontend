@@ -16,16 +16,16 @@ function handleSubmit(e) {
 
 function handleCheckboxClick() {
   if (checkBox.checked === true) {
-    props.onSearchMovies(searchQuery, true);
+    props.onCheckboxClick(true);
     } 
   else {
-    props.onSearchMovies(searchQuery, false);
+    props.onCheckboxClick(false);
   }
 }  
 return (
     <section className="searchForm">
       <form className="searchForm__form" onSubmit={handleSubmit}>
-        <input className="searchForm__input" placeholder="Фильм" onChange={handleSearchFormChange}  value={searchQuery || ''} required></input>
+        <input className="searchForm__input" placeholder="Фильм" onChange={handleSearchFormChange}  value={searchQuery || ''} ></input>
         <button className="searchForm__button"><img className="searchForm__button-img" src={buttonImg} alt="Кнопка поиска"></img></button>
       </form>
       <div className="searchForm__filter">

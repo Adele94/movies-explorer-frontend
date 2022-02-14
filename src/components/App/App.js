@@ -17,16 +17,15 @@ import { CurrentUserContext } from '../../context/CurrentUserContext';
 import { useLocation } from 'react-router-dom';
 
 function App() {
-  const [cards, setCards] = useState([]);
-  const [savedCards, setSavedCards] = useState([]);
-  const [movies, setMovies] = useState([]);
+  const [cards, setCards] = useState([]); // фильмы показанные на странице movies
+  const [savedCards, setSavedCards] = useState([]);  // фильмы показанные на странице saved-movies
+  const [movies, setMovies] = useState([]); //все фильмы с beat-films
   const [searchMovies, setSearchMovies] = useState([]);
   const [shortMovies, setShortMovies] = useState([]);
+  const [searchSavedMovies, setSearchSavedMovies] = useState([]);
+  const [shortSavedMovies, setShortSavedMovies] = useState([]);
   const [isHeaderNavigationOpen, setIsHeaderNavigationOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [isRegSuccess, setRegSuccess] = useState(false);
-  const [userEmail, setUserEmail] = useState('');
-  const [userName, setUserName] = useState('');
   const [currentUser, setCurrentUser] = useState({});
 
   const navigate = useNavigate();
@@ -43,18 +42,18 @@ function App() {
   function handleCardSave(card) {
     card.isSaved = !card.isSaved;
     MainApi.addSavedMovie(card)
-    .then((newCard) => {
-      setSavedCards([newCard, ...savedCards]);
-    })
+      .then((newCard) => {
+        setSavedCards([newCard, ...savedCards]);
+      })
     return card.isSaved;
   }
 
   function handleCardDelete(card) {
     card.isSaved = !card.isSaved;
     MainApi.deleteSavedMovie(card)
-    .then((res) => {
-      setSavedCards(savedCards.filter(item => item._id !== card._id));
-    })
+      .then((res) => {
+        setSavedCards(savedCards.filter(item => item._id !== card._id));
+      })
     return card.isSaved;
   }
 
@@ -63,75 +62,131 @@ function App() {
   }
 
   useEffect(() => {
-    if (true) {
-      moviesApi.getInitialCards()
-        .then((res) => {
-          setMovies(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      MainApi.getSavedMovies()
+    moviesApi.getInitialCards()
       .then((res) => {
-        setSavedCards(res);
+        setMovies(res);
       })
       .catch((err) => {
         console.log(err);
-      })
-    }
-  }, []);
+      });
+  }, [])
 
-
-  function searchAllMovies(searchQuery, isChecked) {
-    const searchResult = [];
-    const shortResult = [];
-    if (searchQuery) {
-      if(location.pathname === '/movies'){
-      movies.filter((item) => {
-        const searchItem = item.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
-        if (searchItem) {
-          searchResult.push(item);
-          if (item.duration <= 40)
-            shortResult.push(item);
-        }
+  useEffect(() => {
+    handleTokenCheck();
+    if (loggedIn) {
+      MainApi.getProfile().then(currentUser => {
+        setCurrentUser(currentUser);
+        MainApi.getSavedMovies()
+          .then((res) => {
+            let usersSavedMovies = [];
+            res.forEach(savedMovie => {
+              if (savedMovie.owner === currentUser._id) {
+                usersSavedMovies.push(savedMovie);
+              }
+            })
+            setSavedCards(usersSavedMovies);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
       })
-       }
-       else {
-        savedCards.filter((item) => {
-          const searchItem = item.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
-          if (searchItem) {
-            searchResult.push(item);
-            if (item.duration <= 40)
-              shortResult.push(item);
-          }
+        .catch((err) => {
+          console.log(err);
         })
-       }
-      if (searchResult.length !== 0) {
-        setSearchMovies(searchResult);
+    }
+  }, [loggedIn]);
+
+
+  useEffect(() => {
+    if (loggedIn === true) {
+      navigate("/movies");
+    }
+  }, [loggedIn]);
+
+  function handleCheckboxClick(isChecked) {
+    if (location.pathname === '/movies'){
+      if(!isChecked){
+        setCards(searchMovies);
       }
-      if (shortResult !== 0) {
-        setShortMovies(shortResult);
-      }
-      if (isChecked) {
-        setCards(shortResult);
-      }
-      else {
-        setCards(searchResult);
+      else{
+        setCards(shortMovies)
       }
     }
     else {
-      setCards([]);
+      let SearchSavedMovies = [];
+      let ShortSavedMovies = [];
+
+      savedCards.filter((item) => {
+          SearchSavedMovies.push(item);
+          setSearchSavedMovies(SearchSavedMovies);
+          if (item.duration <= 40){
+          ShortSavedMovies.push(item);
+          setShortSavedMovies(ShortSavedMovies)
+          }
+      })
+      if (!isChecked) {
+        setSavedCards(searchSavedMovies);
+      }
+      else {
+        setSavedCards(shortSavedMovies);
+      }
+    }
+  }
+
+  function searchAllMovies(searchQuery, isChecked) {
+    setSearchMovies([]);
+    setShortMovies([]);
+    setSearchSavedMovies([]);
+    setShortSavedMovies([]);
+    if (location.pathname === '/movies') {
+      if (searchQuery) {
+        movies.filter((item) => {
+          const searchItem = item.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
+          if (searchItem) {
+            setSearchMovies(oldArray =>[...oldArray, item]);
+            if (item.duration <= 40){
+            setShortMovies(oldArray => [...oldArray, item]);
+            }
+          }
+        })
+        if (!isChecked) {
+          setCards(searchMovies);
+        }
+        else {
+          setCards(shortMovies);
+        }
+      }
+      else{
+        setSearchMovies([]);
+        setShortMovies([]);
+        setCards([]);
+      }
+    }
+    else {
+      savedCards.filter((item) => {
+        const searchItem = item.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
+        if (searchItem) {
+          setSearchSavedMovies(oldArray =>[...oldArray, item])
+          if (item.duration <= 40){
+          setShortSavedMovies(oldArray =>[...oldArray, item])
+          }
+        }
+      })
+      if (!isChecked) {
+        setSavedCards(searchSavedMovies);
+      }
+      else {
+        setSavedCards(shortSavedMovies);
+      }
     }
   }
 
   function handleRegister({ name, email, password }) {
     MainApi.register({ name, email, password })
       .then(() => {
-        setRegSuccess(true);
         navigate('/signin');
       })
       .catch((err) => {
-        setRegSuccess(false);
         console.log(err);
       })
   }
@@ -143,9 +198,7 @@ function App() {
           localStorage.setItem('token', res.token);
           MainApi.getProfile().then(res => {
             setCurrentUser(res);
-            setUserName(res.name);
           });
-          setUserEmail(email);
           setLoggedIn(true);
           navigate('/movies')
         }
@@ -167,9 +220,9 @@ function App() {
 
   function handleSignOut() {
     localStorage.removeItem('token');
-    setUserEmail('');
-    setUserName('');
     setCurrentUser('');
+    setCards([]);
+    setSavedCards([]);
     setLoggedIn(false);
   }
 
@@ -179,7 +232,6 @@ function App() {
       // проверяем токен пользователя
       MainApi.checkToken(jwt)
         .then((res) => {
-          setUserEmail(res.email)
           setLoggedIn(true);
         })
         .catch((err) => {
@@ -187,25 +239,6 @@ function App() {
         });
     }
   }
-
-  useEffect(() => {
-    handleTokenCheck();
-    if (loggedIn) {
-      MainApi.getProfile().then(res => {
-        setCurrentUser(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-    }
-  }, [loggedIn]);
-
-
-  useEffect(() => {
-    if (loggedIn === true) {
-      navigate("/movies");
-    }
-  }, [loggedIn]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -237,22 +270,21 @@ function App() {
               <ProtectedRoute loggedIn={loggedIn}>
                 <Movies
                   cards={cards}
-                  searchMovies={searchMovies}
-                  shortMovies={shortMovies}
                   savedMovies={savedCards}
                   onSearchMovies={searchAllMovies}
+                  onCheckboxClick={handleCheckboxClick}
                   onCardSave={handleCardSave}
                   onCardDelete={handleCardDelete}
-                  onCardClick={handleCardClick} />
+                  onCardClick={handleCardClick}
+                />
               </ProtectedRoute>
             } />
             <Route exact path="/saved-movies" element={
               <ProtectedRoute loggedIn={loggedIn}>
                 <SavedMovies
                   cards={cards}
-                  searchMovies={searchMovies}
-                  shortMovies={shortMovies}
                   savedMovies={savedCards}
+                  onCheckboxClick={handleCheckboxClick}
                   onSearchMovies={searchAllMovies}
                   onCardDelete={handleCardDelete}
                   onCardClick={handleCardClick} />

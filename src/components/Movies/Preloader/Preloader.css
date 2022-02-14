@@ -15,7 +15,7 @@
     }
 }
 
-@keyframes preloader-inside-red {
+@keyframes preloader-inside-green {
     0% {
         -webkit-transform: scale(0, 0);
         -moz-transform: scale(0, 0);
@@ -49,6 +49,16 @@
     padding: 20px;
 }
 
+.preloader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  padding: 20px;
+}
+
 .preloader__container {
     width: 100px;
     height: 100px;
@@ -61,7 +71,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    background: #FF6838;
+    background: #3DDC84;
     border-radius: 50px;
 }
 
@@ -83,6 +93,6 @@
 
 .preloader__round::before {
     z-index: 10;
-    background: #FF6838;
+    background: #3DDC84;
     animation: preloader-inside-red 1s ease-in-out infinite;
 }
