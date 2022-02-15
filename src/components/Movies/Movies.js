@@ -50,7 +50,7 @@ function Movies(props) {
         onCheckboxClick={handleCheckboxClick}
         onSearchFormChange={handleChangeSearchQuery}
       />
-      {searchQuery && isSubmitted ? <p className="main__text">Ничего не найдено.</p> : ''}
+      {searchQuery && isSubmitted && foundMovies.length===0 ? <p className="main__text">Ничего не найдено.</p> : ''}
       {props.isLoading ?
         <Preloader /> :
         <MoviesCardList

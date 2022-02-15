@@ -16,8 +16,8 @@ import * as MainApi from "../../utils/MainApi";
 import { CurrentUserContext } from '../../context/CurrentUserContext';
 
 function App() {
-  const [cards, setCards] = useState([]); 
-  const [savedCards, setSavedCards] = useState([]);  
+  const [cards, setCards] = useState([]);
+  const [savedCards, setSavedCards] = useState([]);
   const [isHeaderNavigationOpen, setIsHeaderNavigationOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
@@ -33,10 +33,9 @@ function App() {
   }
 
   function handleCardSave(card) {
-   return MainApi.addSavedMovie(card)
+    return MainApi.addSavedMovie(card)
       .then((newCard) => {
         setSavedCards([newCard, ...savedCards]);
-        localStorage.setItem('savedMovies', JSON.stringify([...savedCards, newCard ]));
       })
       .catch((err) => {
         console.log(err)
@@ -45,7 +44,7 @@ function App() {
 
   function handleCardDelete(card) {
     let deleteSavedCard = savedCards.find(item => item.movieId === card.movieId)
-   return MainApi.deleteSavedMovie(deleteSavedCard)
+    return MainApi.deleteSavedMovie(deleteSavedCard)
       .then(() => {
         setSavedCards(savedCards.filter(item => item.movieId !== card.movieId));
       })
@@ -53,14 +52,19 @@ function App() {
 
   function handleCardDiscard(card) {
     let deleteSavedCard = savedCards.find(item => item.movieId === card.id)
-   return MainApi.deleteSavedMovie(deleteSavedCard)
+    return MainApi.deleteSavedMovie(deleteSavedCard)
       .then(() => {
         setSavedCards(savedCards.filter(item => item.movieId !== card.id));
       })
   }
 
   function handleCardClick(card) {
-    window.open(card.trailerLink, '_blank');
+    if (card.trailerLink) {
+      window.open(card.trailerLink, '_blank');
+    }
+    else {
+      window.open(card.trailer, '_blank');
+    }
   }
 
   useEffect(() => {
@@ -149,7 +153,6 @@ function App() {
 
   function handleSignOut() {
     localStorage.removeItem('token');
-    localStorage.removeItem('savedMovies');
     localStorage.removeItem('movies');
     localStorage.removeItem('searchQuery');
     setCurrentUser('');
