@@ -54,6 +54,10 @@
   box-sizing: border-box;
 }
 
+.login__input_error{
+  color: #EE3465;
+}
+
 .login__input-section {
   margin-bottom: 20px;
   display: flex;
@@ -69,10 +73,25 @@
   border-radius: 3px;
   color: #FFFFFF;
 }
-  
 .login__submit:hover {
   opacity: 0.6;
   cursor: pointer;
+}
+  
+.login__submit_disable {
+  background: #fff;
+  border: 1px solid #000;
+  border-radius: 2px;
+  box-sizing: border-box;
+  color: #000;
+  opacity: .6;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.login__submit_disable:hover {
+  cursor: auto;
 }
 
 .login__question {

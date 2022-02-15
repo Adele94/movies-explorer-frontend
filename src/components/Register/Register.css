@@ -53,6 +53,9 @@
   border-radius: 8px;
   box-sizing: border-box;
 }
+.register__input_error{
+  color: #EE3465;
+}
 
 .register__input-section {
   margin-bottom: 20px;
@@ -73,6 +76,22 @@
 .register__submit:hover {
   opacity: 0.6;
   cursor: pointer;
+}
+
+.register__submit_disable {
+  background: #fff;
+  border: 1px solid #000;
+  border-radius: 2px;
+  box-sizing: border-box;
+  color: #000;
+  opacity: .6;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.register__submit_disable:hover {
+  cursor: auto;
 }
 
 .register__question {
