@@ -14,11 +14,10 @@ import SavedMovies from '../SavedMovies/SavedMovies';
 import moviesApi from "../../utils/MoviesApi";
 import * as MainApi from "../../utils/MainApi";
 import { CurrentUserContext } from '../../context/CurrentUserContext';
-import { useLocation } from 'react-router-dom';
 
 function App() {
-  const [cards, setCards] = useState([]); // фильмы показанные на странице movies
-  const [savedCards, setSavedCards] = useState([]);  // фильмы показанные на странице saved-movies
+  const [cards, setCards] = useState([]); 
+  const [savedCards, setSavedCards] = useState([]);  
   const [isHeaderNavigationOpen, setIsHeaderNavigationOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});

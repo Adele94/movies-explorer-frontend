@@ -24,7 +24,7 @@ function Register(props) {
   };
 
   const resetForm = useCallback(
-    (newValues = {}, newErrors = {}, newIsValid = false) => {
+    (newValues = {}, newErrors = {name:"", email:"", password:""}, newIsValid = false) => {
       setValues(newValues);
       setErrors(newErrors);
       setIsValid(newIsValid);
@@ -49,17 +49,17 @@ function Register(props) {
         <section className="register__input-section">
           <label className="register__label">Имя</label>
           <input type="text" className="register__input" name="name" onChange={handleChange} required minLength="2" maxLength="40" />
-          <span className="register__input-error name-input-error">{errors["name"]}\</span>
+          <span className="register__input-error register__input-error_active">{errors["name"]}</span>
         </section>
         <section className="register__input-section">
           <label className="register__label">E-mail</label>
           <input type="email" className="register__input" name="email" onChange={handleChange} required minLength="2" maxLength="200" />
-          <span className="register__input-error description-input-error">{errors["email"]}</span>
+          <span className="register__input-error register__input-error_active">{errors["email"]}</span>
         </section>
         <section className="register__input-section">
           <label className="register__label">Пароль</label>
           <input type="password" className={registerInputClassName} name="password" onChange={handleChange} required minLength="5" maxLength="40" />
-          <span className="register__input-error description-input-error register__input-error_active">{errors["password"]}</span>
+          <span className="register__input-error register__input-error_active">{errors["password"]}</span>
         </section>
         <div className="register__button-container" >
           <button type="submit" className={registerSubmitClassName}> Зарегистрироваться </button>
