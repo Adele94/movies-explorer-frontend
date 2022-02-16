@@ -7,4 +7,4 @@
 * [Ссылка на сервер](https://movies.adel.nabiullina.nomoredomains.rocks/)
 
 **Публичный  адрес**
-51.250.14.139
+62.84.125.12
