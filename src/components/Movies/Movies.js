@@ -9,7 +9,7 @@ function Movies(props) {
   const [isCheckbox, setIsCheckbox]  = LocalStorageMovies("checkbox", "");
   const [movies] = LocalStorageMovies("movies", "");
 
-  const [isSubmitted, setIsSubmitted] = useState(true);
+  const [isSubmitted, setIsSubmitted] = LocalStorageMovies("isSubmitted", "");
   const [foundMovies, setFoundMovies] = useState(searhMovies(movies, searchQuery));
 
   function handleCheckboxClick(isChecked) {
@@ -67,7 +67,7 @@ function Movies(props) {
     return searchItems;
   }
 
-  function handleSearchMovies(searchQuery) {
+  function handleSearchMovies() {
     setIsSubmitted(true);
   }
 

@@ -2,7 +2,7 @@ import './App.css';
 import Main from '../Main/Main';
 import Header from '../Header/Header';
 import React, { Fragment, useState, useEffect } from 'react';
-import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import Movies from '../Movies/Movies';
 import Footer from '../Footer/Footer';
 import Profile from '../Profile/Profile';
