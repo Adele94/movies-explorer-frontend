@@ -2,7 +2,7 @@ import './App.css';
 import Main from '../Main/Main';
 import Header from '../Header/Header';
 import React, { Fragment, useState, useEffect } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import Movies from '../Movies/Movies';
 import Footer from '../Footer/Footer';
 import Profile from '../Profile/Profile';
@@ -24,7 +24,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
-
+  const location = useLocation();
 
   function handleHeaderNavigationClick() {
     setIsHeaderNavigationOpen(true);
@@ -46,7 +46,7 @@ function App() {
       })
       .finally(() => {
         setTimeout(function () {
-        setErrorMessage("");
+          setErrorMessage("");
         }, 1500);
       });
   }
@@ -64,7 +64,7 @@ function App() {
       })
       .finally(() => {
         setTimeout(function () {
-        setErrorMessage("");
+          setErrorMessage("");
         }, 1500);
       });
   }
@@ -81,7 +81,7 @@ function App() {
       })
       .finally(() => {
         setTimeout(function () {
-        setErrorMessage("");
+          setErrorMessage("");
         }, 1500);
       });
   }
@@ -139,7 +139,7 @@ function App() {
   function handleRegister({ name, email, password }) {
     MainApi.register({ name, email, password })
       .then(() => {
-        handleLogin({email, password});
+        handleLogin({ email, password });
         setErrorMessage('');
       })
       .catch((err) => {
@@ -148,19 +148,19 @@ function App() {
       })
       .finally(() => {
         setTimeout(function () {
-        setErrorMessage("");
+          setErrorMessage("");
         }, 5000);
       });
   }
 
   function handleLogin({ email, password }) {
-     MainApi.authorize({ email, password })
+    MainApi.authorize({ email, password })
       .then((res) => {
         if (res.token) {
           localStorage.setItem('token', res.token);
           MainApi.getProfile().then(res => {
             setCurrentUser(res);
-          }); 
+          });
           setLoggedIn(true)
           navigate("/movies");
         }
@@ -171,7 +171,7 @@ function App() {
       })
       .finally(() => {
         setTimeout(function () {
-        setErrorMessage("");
+          setErrorMessage("");
         }, 5000);
       });
   }
@@ -188,7 +188,7 @@ function App() {
       })
       .finally(() => {
         setTimeout(function () {
-        setErrorMessage("");
+          setErrorMessage("");
         }, 1500);
       });
   }
@@ -198,10 +198,12 @@ function App() {
     localStorage.removeItem('movies');
     localStorage.removeItem('searchQuery');
     localStorage.removeItem('checkbox');
+    localStorage.removeItem('isSubmitted');
     setCurrentUser('');
     setCards([]);
     setSavedCards([]);
     setLoggedIn(false);
+    navigate('/');
   }
 
   function handleTokenCheck() {
@@ -217,6 +219,16 @@ function App() {
         });
     }
   }
+
+  useEffect(() => {
+    if (loggedIn === true && (location.pathname !== '/signin' && location.pathname !== '/signup')) {
+      navigate(location.pathname)
+    }
+    if(location.pathname==='/profile' && loggedIn){
+      navigate('/profile');
+    }
+  }, [loggedIn])
+
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -270,11 +282,11 @@ function App() {
             } />
             <Route path="/profile" element={
               <ProtectedRoute loggedIn={loggedIn}>
-                <Profile onEditProfile={handleEditProfile} onSignOut={handleSignOut} errorMessage={errorMessage}/>
+                <Profile onEditProfile={handleEditProfile} onSignOut={handleSignOut} errorMessage={errorMessage} />
               </ProtectedRoute>
             } />
-            <Route path="/signup" element={<Register onRegister={handleRegister} errorMessage={errorMessage}/>} />
-            <Route path="/signin" element={<Login onLogin={handleLogin} errorMessage={errorMessage}/>} />
+            <Route path="/signup" element={<Register onRegister={handleRegister} errorMessage={errorMessage} />} />
+            <Route path="/signin" element={<Login onLogin={handleLogin} errorMessage={errorMessage} />} />
             <Route path='*' element={<NotFoundPage />} />
           </Routes>
         </Fragment>
