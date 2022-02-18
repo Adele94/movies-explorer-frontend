@@ -151,6 +151,23 @@
   transition: opacity 0.3s;
   box-sizing: border-box;
 }
+
+
+.register__error{
+  margin: 0;
+  margin-top: 10px;
+  padding: 0;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  color: #EE3465;
+  left: 0;
+  transition: opacity 0.3s;
+  box-sizing: border-box;
+}
+
   
 .register__input-error_active {
   opacity: 1;

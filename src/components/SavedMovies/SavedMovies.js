@@ -61,6 +61,7 @@ function SavedMovies(props) {
         onSearchMovies={handleSearchMovies}
         onCheckboxClick={handleCheckboxClick}
         onSearchFormChange={handleChangeSearchQuery}
+        isCheckbox={false}
       />
       {searchQuery && isSubmitted && foundMovies.length===0 ? <p className="main__text">Ничего не найдено</p> : ''}
       {props.isLoading ?

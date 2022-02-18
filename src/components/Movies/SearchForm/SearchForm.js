@@ -25,7 +25,7 @@ return (
       </form>
       <div className="searchForm__filter">
       <label className="searchForm__switch">
-        <input className="searchForm__checkbox" id="searchForm-checkbox" type="checkbox" onClick={handleCheckboxClick}/>
+        <input className="searchForm__checkbox" defaultChecked={props.isCheckbox} id="searchForm-checkbox" type="checkbox" onClick={handleCheckboxClick}/>
         <div className="searchForm__slider"></div>
       </label>
       <p className="searchForm__shortMovies">Короткометражки</p>

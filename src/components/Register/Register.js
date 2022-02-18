@@ -1,11 +1,14 @@
 import registerLogo from '../../images/header-logo.svg'
 import {Link} from "react-router-dom"
 import React, { useCallback } from 'react';
+import * as EmailValidator from 'email-validator';
 
 function Register(props) {
   const [values, setValues] = React.useState({});
   const [errors, setErrors] = React.useState({});
   const [isValid, setIsValid] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState('');
+
   const registerSubmitClassName = (
     `register__submit ${!isValid ? 'register__submit_disable' : ''}`
   );
@@ -18,9 +21,19 @@ function Register(props) {
     const target = event.target;
     const name = target.name;
     const value = target.value;
+    setErrorMessage('');
     setValues({ ...values, [name]: value });
     setErrors({ ...errors, [name]: target.validationMessage });
-    setIsValid(target.closest("form").checkValidity());
+    setIsValid(target.closest("form").checkValidity())
+    if (!target.validationMessage && name === "email") {
+      if (!EmailValidator.validate(value)) {
+        setErrors({ ...errors, ["email"]: 'Неверный формат почты' });
+        setIsValid(false);
+      }
+      else {
+        setErrors({ ...errors, ["email"]: '' });
+      }
+    }
   };
 
   const resetForm = useCallback(
@@ -37,9 +50,20 @@ function Register(props) {
     let name = values["name"];
     let email = values["email"];
     let password = values["password"];
-    props.onRegister({ name, email, password });
-    resetForm();
+    props.onRegister({ name, email, password })
+    .resetForm();
   }
+  React.useEffect(() => {
+    if (props.errorMessage != '') {
+      if(props.errorMessage === 'Ошибка: 409 undefined'){
+      setErrorMessage("Пользователь с таким email уже существует");
+      }
+    }
+    else {
+      setErrorMessage('');
+    }
+  }, [props.errorMessage]);
+
   
   return (
     <section  className="register"> 
@@ -61,6 +85,7 @@ function Register(props) {
           <input type="password" className={registerInputClassName} name="password" onChange={handleChange} required minLength="5" maxLength="40" />
           <span className="register__input-error register__input-error_active">{errors["password"]}</span>
         </section>
+        {<p className="register__error">{errorMessage}</p>}
         <div className="register__button-container" >
           <button type="submit" className={registerSubmitClassName}> Зарегистрироваться </button>
           <p className="register__question">Уже зарегистрированы?

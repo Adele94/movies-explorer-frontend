@@ -1,4 +1,4 @@
-import React, {useEffect, useContext} from 'react';
+import React, { useEffect, useContext } from 'react';
 import { CurrentUserContext } from '../../context/CurrentUserContext';
 
 function Profile(props) {
@@ -6,7 +6,7 @@ function Profile(props) {
   const [name, setName] = React.useState(currentUser.name);
   const [email, setEmail] = React.useState(currentUser.email);
 
-    // После загрузки текущего пользователя из API
+  // После загрузки текущего пользователя из API
   // его данные будут использованы в управляемых компонентах.
   useEffect(() => {
     setName(currentUser.name);
@@ -23,7 +23,9 @@ function Profile(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    props.onEditProfile({ name, email });
+    if (name != currentUser.name || email != currentUser.email) {
+      props.onEditProfile({ name, email });
+    }
   }
   return (
     <section className="profile">
@@ -43,7 +45,7 @@ function Profile(props) {
         </div>
       </form>
     </section>
-);
+  );
 }
 
 export default Profile;

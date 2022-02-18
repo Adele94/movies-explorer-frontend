@@ -2,7 +2,7 @@ import './App.css';
 import Main from '../Main/Main';
 import Header from '../Header/Header';
 import React, { Fragment, useState, useEffect } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import Movies from '../Movies/Movies';
 import Footer from '../Footer/Footer';
 import Profile from '../Profile/Profile';
@@ -22,7 +22,10 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  let location = useLocation();
   const navigate = useNavigate();
+
 
   function handleHeaderNavigationClick() {
     setIsHeaderNavigationOpen(true);
@@ -108,38 +111,53 @@ function App() {
     }
   }, [loggedIn]);
 
+  /*
   useEffect(() => {
     if (loggedIn === true) {
-      navigate("/movies");
+      navigate('/movies');
     }
-  }, [loggedIn]);
+  }, [loggedIn]);*/
 
   function handleRegister({ name, email, password }) {
     MainApi.register({ name, email, password })
       .then(() => {
-        navigate('/signin');
+        handleLogin({email, password});
+        setErrorMessage('');
       })
       .catch((err) => {
+        setErrorMessage(err);
         console.log(err);
       })
+      .finally(() => {
+        setTimeout(function () {
+        setErrorMessage("");
+        }, 5000);
+      });
   }
 
   function handleLogin({ email, password }) {
-    MainApi.authorize({ email, password })
+     MainApi.authorize({ email, password })
       .then((res) => {
         if (res.token) {
           localStorage.setItem('token', res.token);
           MainApi.getProfile().then(res => {
             setCurrentUser(res);
-          });
-          setLoggedIn(true);
-          navigate('/movies')
+          }); 
+          setLoggedIn(true)
+          navigate("/movies");
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        console.log(error);
+        setErrorMessage(error);
       })
+      .finally(() => {
+        setTimeout(function () {
+        setErrorMessage("");
+        }, 5000);
+      });
   }
+
   function handleEditProfile({ name, email }) {
     MainApi.updateProfile({ name, email })
       .then((res) => {
@@ -147,14 +165,21 @@ function App() {
       }
       )
       .catch((err) => {
+        setErrorMessage(err);
         console.log(err);
       })
+      .finally(() => {
+        setTimeout(function () {
+        setErrorMessage("");
+        }, 1500);
+      });
   }
 
   function handleSignOut() {
     localStorage.removeItem('token');
     localStorage.removeItem('movies');
     localStorage.removeItem('searchQuery');
+    localStorage.removeItem('checkbox');
     setCurrentUser('');
     setCards([]);
     setSavedCards([]);
@@ -225,11 +250,11 @@ function App() {
             } />
             <Route path="/profile" element={
               <ProtectedRoute loggedIn={loggedIn}>
-                <Profile onEditProfile={handleEditProfile} onSignOut={handleSignOut} />
+                <Profile onEditProfile={handleEditProfile} onSignOut={handleSignOut} errorMessage={errorMessage}/>
               </ProtectedRoute>
             } />
-            <Route path="/signup" element={<Register onRegister={handleRegister} />} />
-            <Route path="/signin" element={<Login onLogin={handleLogin} />} />
+            <Route path="/signup" element={<Register onRegister={handleRegister} errorMessage={errorMessage}/>} />
+            <Route path="/signin" element={<Login onLogin={handleLogin} errorMessage={errorMessage}/>} />
             <Route path='*' element={<NotFoundPage />} />
           </Routes>
         </Fragment>
