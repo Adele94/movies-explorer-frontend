@@ -6,7 +6,6 @@ import Preloader from '../Movies/Preloader/Preloader'
 function SavedMovies(props) {
   const [searchQuery, setSearchQuery] = useState('');
   const [foundMovies, setFoundMovies] = useState(props.savedMovies);
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
   function handleCheckboxClick(isChecked) {
     handleSearchMovies(searchQuery, isChecked);
@@ -14,7 +13,6 @@ function SavedMovies(props) {
 
   function handleChangeSearchQuery(value) {
     setSearchQuery(value);
-    setIsSubmitted(false);
   }
 
   function searhMovies(movies, searchQuery) {
@@ -48,7 +46,6 @@ function SavedMovies(props) {
         setFoundMovies(props.savedMovies);
       }
     }
-    setIsSubmitted(true);
   };
   useEffect(() => {
     setFoundMovies(props.savedMovies)
@@ -64,7 +61,7 @@ function SavedMovies(props) {
         isCheckbox={false}
       />
       {props.errorMessage && <p className="main__text">Что-то пошло не так...</p>}
-      {searchQuery && isSubmitted && foundMovies.length===0 ? <p className="main__text">Ничего не найдено</p> : ''}
+      {foundMovies.length === 0 && <p className="main__text">Ничего не найдено</p> }
       {props.isLoading ?
       <Preloader /> :
       <MoviesCardList

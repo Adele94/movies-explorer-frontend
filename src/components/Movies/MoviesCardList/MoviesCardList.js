@@ -2,14 +2,15 @@
 import MoviesCard from '../MoviesCard/MoviesCard'
 import { useLocation } from 'react-router-dom';
 import moviesApi from "../../../utils/MoviesApi";
-import React from 'react';
+import React, {useState} from 'react';
 
 function MoviesCardList(props) {
   let location = useLocation();
   const cards = props.cards;
   const savedCards = props.savedMovies;
-  const [cardsCount, setCardsCount] = React.useState(0);
+  const [cardsCount, setCardsCount] = useState(0);
   const windowWidth = window.innerWidth;
+  const [isMoreButtonVisible, setIsMoreButtonVisible] = useState(true);
 
   React.useEffect(() => {
       if (windowWidth > 768) {
@@ -28,6 +29,19 @@ function MoviesCardList(props) {
       setCardsCount(cardsCount + 2);
     }
   };
+
+  React.useEffect(() => {
+    if (cardsCount >= cards.length) {
+      setIsMoreButtonVisible(false);
+    }
+    else {
+      setIsMoreButtonVisible(true);
+    }
+    if(cardsCount === 0)
+    {
+      setIsMoreButtonVisible(false);
+    }
+  }, [cardsCount, cards]);
 
   return (
     <section className="moviesCardsSection">
@@ -59,7 +73,7 @@ function MoviesCardList(props) {
       )}
       </div>
       <div className="moviesCardsBottom">
-      {location.pathname === '/movies' ? (
+      {location.pathname === '/movies' && isMoreButtonVisible ? (
       <div className="moreButtonSection">
         <button type='button' className="moreButton" onClick={handleMoreButtonClick}> Ещё </button>
       </div>

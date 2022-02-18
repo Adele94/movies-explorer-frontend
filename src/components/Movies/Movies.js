@@ -9,7 +9,7 @@ function Movies(props) {
   const [isCheckbox, setIsCheckbox]  = LocalStorageMovies("checkbox", "");
   const [movies] = LocalStorageMovies("movies", "");
 
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(true);
   const [foundMovies, setFoundMovies] = useState(searhMovies(movies, searchQuery));
 
   function handleCheckboxClick(isChecked) {
@@ -22,6 +22,7 @@ function Movies(props) {
   }
 
   useEffect(() => {
+    if(isSubmitted){
     if (isCheckbox) {
       const shortMovies = movies.filter(item => item.duration <= 40)
       setFoundMovies(searhMovies(shortMovies, searchQuery));
@@ -29,10 +30,12 @@ function Movies(props) {
     else {
       setFoundMovies(searhMovies(movies, searchQuery));
     }
+  }
   }, [isCheckbox, isSubmitted])
 
 
   useEffect(() => {
+    if(isSubmitted){
     if (isCheckbox) {
       const shortMovies = movies.filter(item => item.duration <= 40)
       setFoundMovies(searhMovies(shortMovies, searchQuery));
@@ -40,12 +43,13 @@ function Movies(props) {
     else {
       setFoundMovies(searhMovies(movies, searchQuery));
     }
+  }
   }, [isCheckbox, isSubmitted])
 
   function searhMovies(movies, searchQuery) {
     let searchItems = [];
     let searchShortItems = [];
-    if (searchQuery  && isSubmitted) {
+    if (searchQuery && isSubmitted) {
       movies.filter((item) => {
         if (item.nameRU.toLowerCase().includes(searchQuery.toLowerCase())) {
           searchItems.push(item);
