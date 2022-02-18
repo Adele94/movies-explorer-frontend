@@ -51,7 +51,7 @@ function Register(props) {
     let email = values["email"];
     let password = values["password"];
     props.onRegister({ name, email, password })
-    .resetForm();
+    resetForm();
   }
   React.useEffect(() => {
     if (props.errorMessage != '') {

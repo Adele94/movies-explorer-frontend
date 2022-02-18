@@ -23,7 +23,6 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  let location = useLocation();
   const navigate = useNavigate();
 
 
@@ -39,10 +38,17 @@ function App() {
     return MainApi.addSavedMovie(card)
       .then((newCard) => {
         setSavedCards([newCard, ...savedCards]);
+        setErrorMessage("");
       })
-      .catch((err) => {
+      .catch(err => {
+        setErrorMessage(err);
         console.log(err)
       })
+      .finally(() => {
+        setTimeout(function () {
+        setErrorMessage("");
+        }, 1500);
+      });
   }
 
   function handleCardDelete(card) {
@@ -50,7 +56,17 @@ function App() {
     return MainApi.deleteSavedMovie(deleteSavedCard)
       .then(() => {
         setSavedCards(savedCards.filter(item => item.movieId !== card.movieId));
+        setErrorMessage("");
       })
+      .catch(err => {
+        setErrorMessage(err);
+        console.log(err);
+      })
+      .finally(() => {
+        setTimeout(function () {
+        setErrorMessage("");
+        }, 1500);
+      });
   }
 
   function handleCardDiscard(card) {
@@ -58,7 +74,16 @@ function App() {
     return MainApi.deleteSavedMovie(deleteSavedCard)
       .then(() => {
         setSavedCards(savedCards.filter(item => item.movieId !== card.id));
+        setErrorMessage("");
       })
+      .catch(err => {
+        setErrorMessage(err);
+      })
+      .finally(() => {
+        setTimeout(function () {
+        setErrorMessage("");
+        }, 1500);
+      });
   }
 
   function handleCardClick(card) {
@@ -110,13 +135,6 @@ function App() {
         })
     }
   }, [loggedIn]);
-
-  /*
-  useEffect(() => {
-    if (loggedIn === true) {
-      navigate('/movies');
-    }
-  }, [loggedIn]);*/
 
   function handleRegister({ name, email, password }) {
     MainApi.register({ name, email, password })
@@ -235,6 +253,7 @@ function App() {
                   onCardDelete={handleCardDiscard}
                   onCardClick={handleCardClick}
                   isLoading={isLoading}
+                  errorMessage={errorMessage}
                 />
               </ProtectedRoute>
             } />
@@ -245,7 +264,8 @@ function App() {
                   savedMovies={savedCards}
                   onCardDelete={handleCardDelete}
                   onCardClick={handleCardClick}
-                  isLoading={isLoading} />
+                  isLoading={isLoading}
+                  errorMessage={errorMessage} />
               </ProtectedRoute>
             } />
             <Route path="/profile" element={

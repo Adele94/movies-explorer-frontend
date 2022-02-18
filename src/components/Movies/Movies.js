@@ -65,7 +65,7 @@ function Movies(props) {
 
   function handleSearchMovies(searchQuery) {
     setIsSubmitted(true);
-  };
+  }
 
   return (
     <div className="movies">
@@ -76,6 +76,7 @@ function Movies(props) {
         onSearchFormChange={handleChangeSearchQuery}
         isCheckbox={isCheckbox}
       />
+      {props.errorMessage && <p className="main__text">Что-то пошло не так...</p>}
       {searchQuery && isSubmitted && foundMovies.length === 0 ? <p className="main__text">Ничего не найдено.</p> : ''}
       {props.isLoading  ?
         <Preloader /> :
