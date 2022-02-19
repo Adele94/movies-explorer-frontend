@@ -19,7 +19,7 @@ function App() {
   const [cards, setCards] = useState([]);
   const [savedCards, setSavedCards] = useState([]);
   const [isHeaderNavigationOpen, setIsHeaderNavigationOpen] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
   const [currentUser, setCurrentUser] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -162,12 +162,13 @@ function App() {
             setCurrentUser(res);
           });
           setLoggedIn(true)
-          navigate("/movies");
+          console.log(loggedIn)
         }
       })
       .catch((error) => {
         console.log(error);
         setErrorMessage(error);
+        setLoggedIn(false)
       })
       .finally(() => {
         setTimeout(function () {
@@ -203,7 +204,6 @@ function App() {
     setCards([]);
     setSavedCards([]);
     setLoggedIn(false);
-    navigate('/');
   }
 
   function handleTokenCheck() {
@@ -216,18 +216,22 @@ function App() {
         })
         .catch((err) => {
           console.log(err);
+          setLoggedIn(false);
         });
+    }
+    else {
+      setLoggedIn(false);
     }
   }
 
   useEffect(() => {
-    if (loggedIn === true && (location.pathname !== '/signin' && location.pathname !== '/signup')) {
-      navigate(location.pathname)
+    if (loggedIn && location.pathname === "/signup") {
+      navigate('/movies')
     }
-    if(location.pathname==='/profile' && loggedIn){
-      navigate('/profile');
+    if (loggedIn && location.pathname === "/signin") {
+      navigate('/movies')
     }
-  }, [loggedIn])
+  }, [loggedIn, navigate])
 
 
   return (

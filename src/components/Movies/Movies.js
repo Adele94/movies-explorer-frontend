@@ -1,12 +1,12 @@
 import MoviesCardList from "./MoviesCardList/MoviesCardList";
 import SearchForm from "./SearchForm/SearchForm";
 import Preloader from './Preloader/Preloader'
-import {useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LocalStorageMovies } from '../../utils/LocalStorageMovies'
 
 function Movies(props) {
   const [searchQuery, setSearchQuery] = LocalStorageMovies("searchQuery", "");
-  const [isCheckbox, setIsCheckbox]  = LocalStorageMovies("checkbox", "");
+  const [isCheckbox, setIsCheckbox] = LocalStorageMovies("checkbox", "");
   const [movies] = LocalStorageMovies("movies", "");
 
   const [isSubmitted, setIsSubmitted] = LocalStorageMovies("isSubmitted", "");
@@ -22,28 +22,28 @@ function Movies(props) {
   }
 
   useEffect(() => {
-    if(isSubmitted){
-    if (isCheckbox) {
-      const shortMovies = movies.filter(item => item.duration <= 40)
-      setFoundMovies(searhMovies(shortMovies, searchQuery));
+    if (isSubmitted) {
+      if (isCheckbox) {
+        const shortMovies = movies.filter(item => item.duration <= 40)
+        setFoundMovies(searhMovies(shortMovies, searchQuery));
+      }
+      else {
+        setFoundMovies(searhMovies(movies, searchQuery));
+      }
     }
-    else {
-      setFoundMovies(searhMovies(movies, searchQuery));
-    }
-  }
   }, [isCheckbox, isSubmitted])
 
 
   useEffect(() => {
-    if(isSubmitted){
-    if (isCheckbox) {
-      const shortMovies = movies.filter(item => item.duration <= 40)
-      setFoundMovies(searhMovies(shortMovies, searchQuery));
+    if (isSubmitted) {
+      if (isCheckbox) {
+        const shortMovies = movies.filter(item => item.duration <= 40)
+        setFoundMovies(searhMovies(shortMovies, searchQuery));
+      }
+      else {
+        setFoundMovies(searhMovies(movies, searchQuery));
+      }
     }
-    else {
-      setFoundMovies(searhMovies(movies, searchQuery));
-    }
-  }
   }, [isCheckbox, isSubmitted])
 
   function searhMovies(movies, searchQuery) {
@@ -55,14 +55,14 @@ function Movies(props) {
           searchItems.push(item);
         }
       });
-      if(isCheckbox){
+      if (isCheckbox) {
         searchItems.filter((item) => {
-        if(item.duration <= 40) {
-          searchShortItems.push(item);
-        }
-      });
-      searchItems = searchShortItems;
-    }
+          if (item.duration <= 40) {
+            searchShortItems.push(item);
+          }
+        });
+        searchItems = searchShortItems;
+      }
     }
     return searchItems;
   }
@@ -70,7 +70,11 @@ function Movies(props) {
   function handleSearchMovies() {
     setIsSubmitted(true);
   }
-
+/*
+  useEffect(() => {
+    setIsLoading(props.isLoading);
+  }, [props.isLoading])
+*/
   return (
     <div className="movies">
       <SearchForm
@@ -82,7 +86,7 @@ function Movies(props) {
       />
       {props.errorMessage && <p className="main__text">Что-то пошло не так...</p>}
       {searchQuery && isSubmitted && foundMovies.length === 0 ? <p className="main__text">Ничего не найдено.</p> : ''}
-      {props.isLoading  ?
+      {props.isLoading ?
         <Preloader /> :
         <MoviesCardList
           cards={foundMovies}
