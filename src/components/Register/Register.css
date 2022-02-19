@@ -1,0 +1,213 @@
+.register {
+  margin: 0 auto;
+  text-align: left;
+  padding-top: 70px;
+  padding-bottom: 70px;
+  max-width: 400px;
+}
+
+.register__logo {
+  margin-bottom: 40px;
+  text-align: left;
+}
+.register__logo:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.register__title {
+  margin: 0;
+  margin-bottom: 40px;
+  text-align: left;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  /* identical to box height */
+  color: #FFFFFF;
+}
+
+.register__label {
+  margin-bottom: 10px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  color: #8B8B8B;  
+}
+
+.register__input{
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 16px;
+  padding-left: 15px;
+  color: #FFFFFF;
+  max-width: 396px;
+  min-height: 46px;
+  background-color: #2F2F2F;
+  border: none;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+.register__input_error{
+  color: #EE3465;
+}
+
+.register__input-section {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.register__submit{
+  min-width: 100%;
+  height: 45px;
+  margin-top: 50px;
+  border: none;
+  background: #4285F4;
+  border-radius: 3px;
+  color: #FFFFFF;
+}
+  
+.register__submit:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.register__submit_disable {
+  background: #fff;
+  border: 1px solid #000;
+  border-radius: 2px;
+  box-sizing: border-box;
+  color: #000;
+  opacity: .6;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.register__submit_disable:hover {
+  cursor: auto;
+}
+
+.register__question {
+  margin-top: 16px;
+  margin-bottom: 0;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  /* identical to box height */
+  text-align: center;
+  color: #8B8B8B;
+}
+
+.register__link{
+  margin-left: 6px;
+  text-decoration: none;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  /* identical to box height */
+  text-align: center;
+  color: #4285F4;
+}
+
+.register__link:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.register__input-password {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 16px;
+  /* identical to box height */
+
+  color: #EE3465;
+}
+
+.register__input-error {
+  margin: 0;
+  margin-top: 10px;
+  padding: 0;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  color: #EE3465;
+  opacity: 0;
+  left: 0;
+  transition: opacity 0.3s;
+  box-sizing: border-box;
+}
+
+
+.register__error{
+  margin: 0;
+  margin-top: 10px;
+  padding: 0;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  color: #EE3465;
+  left: 0;
+  transition: opacity 0.3s;
+  box-sizing: border-box;
+}
+
+  
+.register__input-error_active {
+  opacity: 1;
+}
+
+@media screen and (max-width: 768px) {
+  .register {
+    padding-top: 232px;
+    padding-bottom: 232px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .register {
+    padding-top: 56px;
+    padding-bottom: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  .register__logo {
+    margin: 0 auto;
+    margin-bottom: 50px;
+    display: flex;
+    text-align: center;
+  }
+  .register__title {
+    margin-bottom: 80px;
+    text-align: center;
+  }
+  .register__submit{
+    margin-top: 137px;
+  }
+  .register__question {
+    margin-top: 14px;
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .register__link{
+    margin-left: 7px;
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
