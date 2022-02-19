@@ -1,14 +1,13 @@
 import registerLogo from '../../images/header-logo.svg'
 import { Link } from "react-router-dom"
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import * as EmailValidator from 'email-validator';
 
 function Login(props) {
-
-  const [values, setValues] = React.useState({});
-  const [errors, setErrors] = React.useState({});
-  const [isValid, setIsValid] = React.useState(false);
-  const [errorMessage, setErrorMessage] = React.useState('');
+  const [values, setValues] = useState({});
+  const [errors, setErrors] = useState({});
+  const [isValid, setIsValid] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const loginSubmitClassName = (
     `login__submit ${!isValid ? 'login__submit_disable' : ''}`
@@ -25,15 +24,16 @@ function Login(props) {
     setErrorMessage('');
     setValues({ ...values, [name]: value });
     setErrors({ ...errors, [name]: target.validationMessage });
-    setIsValid(target.closest("form").checkValidity())
+    setIsValid(target.closest("form").checkValidity() && errors.email!=='Неверный формат почты')
     if (!target.validationMessage && name === "email") {
       if (!EmailValidator.validate(value)) {
         setErrors({ ...errors, ["email"]: 'Неверный формат почты' });
         setIsValid(false);
       }
-      else {
-        setErrors({ ...errors, ["email"]: '' });
-      }
+     else {
+      setErrors({ ...errors, ["email"]: '' });
+      setIsValid(target.closest("form").checkValidity())
+     }
     }
   };
 
@@ -54,7 +54,7 @@ function Login(props) {
     resetForm();
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (props.errorMessage != '') {
       setErrorMessage('Неправильный логин или пароль.');
     }

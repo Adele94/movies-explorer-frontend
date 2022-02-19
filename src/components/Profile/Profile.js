@@ -5,7 +5,12 @@ function Profile(props) {
   const currentUser = useContext(CurrentUserContext);
   const [name, setName] = useState(currentUser.name);
   const [email, setEmail] = useState(currentUser.email);
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const profileSubmitClassName = (
+    `profile__button-edit ${name === currentUser.name && email === currentUser.email ? 'profile__button-edit_disable' : ''}`
+  );
+
   // После загрузки текущего пользователя из API
   // его данные будут использованы в управляемых компонентах.
   useEffect(() => {
@@ -44,7 +49,7 @@ function Profile(props) {
         </div>
         {isSubmitted && <p className="profile__message">{props.errorMessage ? props.errorMessage : "Изменения сохранены"}</p>}
         <div className="profile__buttons">
-          <button type="submit" className="profile__button-edit">Редактировать </button>
+          <button type="submit" className={profileSubmitClassName}>Редактировать </button>
           <button type='button' className="profile__button-signout" onClick={props.onSignOut}>Выйти из аккаунта</button>
         </div>
       </form>

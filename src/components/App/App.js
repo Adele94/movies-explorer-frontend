@@ -186,11 +186,6 @@ function App() {
       .catch((err) => {
         setErrorMessage(err);
         console.log(err);
-      })
-      .finally(() => {
-        setTimeout(function () {
-          setErrorMessage("");
-        }, 1500);
       });
   }
 
@@ -200,6 +195,7 @@ function App() {
     localStorage.removeItem('searchQuery');
     localStorage.removeItem('checkbox');
     localStorage.removeItem('isSubmitted');
+    localStorage.removeItem('foundMovies');
     setCurrentUser('');
     setCards([]);
     setSavedCards([]);

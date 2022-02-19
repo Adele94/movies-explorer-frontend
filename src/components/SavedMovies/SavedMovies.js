@@ -5,6 +5,7 @@ import Preloader from '../Movies/Preloader/Preloader'
 
 function SavedMovies(props) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [isLoading, setIsLoading] = useState(props.isLoading);
   const [foundMovies, setFoundMovies] = useState(props.savedMovies);
 
   function handleCheckboxClick(isChecked) {
@@ -18,6 +19,7 @@ function SavedMovies(props) {
   function searhMovies(movies, searchQuery) {
     let searchItems = [];
     if (searchQuery) {
+      setIsLoading(true);
       movies.filter((item) => {
         if (item.nameRU.toLowerCase().includes(searchQuery.toLowerCase())) {
           searchItems.push(item);
@@ -47,9 +49,20 @@ function SavedMovies(props) {
       }
     }
   };
+
   useEffect(() => {
     setFoundMovies(props.savedMovies)
   }, [props.savedMovies])
+
+  useEffect(() => {
+    setIsLoading(props.isLoading);
+  }, [props.isLoading])
+
+  useEffect(() => {
+    if(foundMovies){
+      setIsLoading(false);
+    }
+  }, [foundMovies])
 
   return (
     <div className="saved-movies">
@@ -62,7 +75,7 @@ function SavedMovies(props) {
       />
       {props.errorMessage && <p className="main__text">Что-то пошло не так...</p>}
       {foundMovies.length === 0 && <p className="main__text">Ничего не найдено</p> }
-      {props.isLoading ?
+      {isLoading ?
       <Preloader /> :
       <MoviesCardList
         cards={props.cards}

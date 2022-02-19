@@ -7,10 +7,10 @@ import { LocalStorageMovies } from '../../utils/LocalStorageMovies'
 function Movies(props) {
   const [searchQuery, setSearchQuery] = LocalStorageMovies("searchQuery", "");
   const [isCheckbox, setIsCheckbox] = LocalStorageMovies("checkbox", "");
-  const [movies] = LocalStorageMovies("movies", "");
-
   const [isSubmitted, setIsSubmitted] = LocalStorageMovies("isSubmitted", "");
-  const [foundMovies, setFoundMovies] = useState(searhMovies(movies, searchQuery));
+  const [foundMovies, setFoundMovies] = LocalStorageMovies("foundMovies", []);
+  const [movies] = LocalStorageMovies("movies", "");
+  const [isLoading, setIsLoading] = useState(props.isLoading);
 
   function handleCheckboxClick(isChecked) {
     setIsCheckbox(isChecked);
@@ -19,20 +19,8 @@ function Movies(props) {
   function handleChangeSearchQuery(value) {
     setSearchQuery(value);
     setIsSubmitted(false);
+    setIsLoading(false);
   }
-
-  useEffect(() => {
-    if (isSubmitted) {
-      if (isCheckbox) {
-        const shortMovies = movies.filter(item => item.duration <= 40)
-        setFoundMovies(searhMovies(shortMovies, searchQuery));
-      }
-      else {
-        setFoundMovies(searhMovies(movies, searchQuery));
-      }
-    }
-  }, [isCheckbox, isSubmitted])
-
 
   useEffect(() => {
     if (isSubmitted) {
@@ -50,6 +38,7 @@ function Movies(props) {
     let searchItems = [];
     let searchShortItems = [];
     if (searchQuery && isSubmitted) {
+      setIsLoading(true);
       movies.filter((item) => {
         if (item.nameRU.toLowerCase().includes(searchQuery.toLowerCase())) {
           searchItems.push(item);
@@ -70,11 +59,17 @@ function Movies(props) {
   function handleSearchMovies() {
     setIsSubmitted(true);
   }
-/*
+
   useEffect(() => {
     setIsLoading(props.isLoading);
   }, [props.isLoading])
-*/
+
+  useEffect(() => {
+    if(foundMovies){
+      setIsLoading(false);
+    }
+  }, [foundMovies])
+
   return (
     <div className="movies">
       <SearchForm
@@ -86,7 +81,7 @@ function Movies(props) {
       />
       {props.errorMessage && <p className="main__text">Что-то пошло не так...</p>}
       {searchQuery && isSubmitted && foundMovies.length === 0 ? <p className="main__text">Ничего не найдено.</p> : ''}
-      {props.isLoading ?
+      {isLoading ?
         <Preloader /> :
         <MoviesCardList
           cards={foundMovies}
